@@ -4,7 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Crypto Dashboard</title>
 
 <style>
@@ -16,6 +19,7 @@ html, body {
     margin: 0;
     padding: 0;
     min-height: 100%;
+    background-color: #000000;
     font-family: Arial, Helvetica, sans-serif;
     color: #fff;
     background:
@@ -1423,7 +1427,7 @@ body {
 
 
 
-/* V0.5: Kompakte Coin-Übersicht auf dem iPhone.
+/* V0.6: Schwarzer iOS-Sicherheitsbereich und kompakte Coin-Übersicht auf dem iPhone.
    Preis rechts neben Coin-Name/Symbol; Zeiträume darunter über volle Breite,
    damit keine Schaltflächen abgeschnitten oder verdeckt werden. */
 @media (max-width: 600px) {
@@ -1531,6 +1535,19 @@ body {
     }
 }
 
+/* V0.6: Hintergrund für iOS-Safe-Area/Statusleiste schwarz halten. */
+html {
+    background: #000000 !important;
+    color-scheme: dark;
+}
+@media (max-width: 600px) {
+    html, body {
+        background-color: #000000;
+    }
+    body {
+        background-image: radial-gradient(circle at 50% -10%, #263a5b 0%, #101a2b 38%, #070b13 100%);
+    }
+}
 </style>
 </head>
 
@@ -1920,7 +1937,7 @@ body {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V0.5</span>
+        <span class="version">V0.6</span>
     </div>
 
 </div>
