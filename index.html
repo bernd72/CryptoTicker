@@ -1335,6 +1335,92 @@ body {
     }
 }
 
+
+/* V0.3: Übersicht auf dem iPhone besser lesbar und leichter bedienbar.
+   Nur Mobilgeräte; die PC-Darstellung bleibt unverändert. */
+@media (max-width: 600px) {
+    .coin-card {
+        grid-template-columns: minmax(0, 1fr) auto !important;
+        align-items: center !important;
+        margin-bottom: 10px !important;
+    }
+
+    .coin-info {
+        min-width: 0 !important;
+        padding: 10px 8px 5px 12px !important;
+        border-right: 0 !important;
+    }
+
+    .coin-icon {
+        width: 42px !important;
+        height: 42px !important;
+        font-size: 21px !important;
+        margin-right: 11px !important;
+    }
+
+    .coin-name {
+        font-size: 17px !important;
+        line-height: 1.2 !important;
+    }
+
+    .coin-symbol {
+        font-size: 12px !important;
+        margin-top: 3px !important;
+    }
+
+    .price-area {
+        min-width: 0 !important;
+        padding: 10px 12px 5px 4px !important;
+        text-align: right !important;
+        align-items: flex-end !important;
+    }
+
+    .price {
+        font-size: 19px !important;
+        line-height: 1.2 !important;
+    }
+
+    .price-label {
+        font-size: 9px !important;
+        margin-top: 3px !important;
+    }
+
+    .changes {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        justify-content: stretch !important;
+        gap: 5px !important;
+        margin-top: 9px !important;
+        overflow: visible !important;
+    }
+
+    .change {
+        min-width: 0 !important;
+        min-height: 58px !important;
+        padding: 9px 4px !important;
+        border-radius: 8px !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .change-label {
+        font-size: 10px !important;
+        line-height: 1.15 !important;
+        margin-bottom: 5px !important;
+        white-space: normal !important;
+    }
+
+    .change-value {
+        font-size: 13px !important;
+        line-height: 1.15 !important;
+        margin-top: 0 !important;
+        white-space: nowrap !important;
+    }
+}
+
 </style>
 </head>
 
