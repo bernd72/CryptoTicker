@@ -1281,7 +1281,7 @@ body {
 }
 
 
-/* iPhone: gesamten verfügbaren Bildschirm nutzen; Versionsnummer rechts im Footer */
+/* iPhone: gesamten verfügbaren Bildschirm nutzen; Versionsnummer mit Abstand zum Rand */
 @media (max-width: 600px) {
     html, body {
         width: 100%;
@@ -1308,25 +1308,30 @@ body {
         gap: 8px;
         width: 100%;
         margin-top: auto;
-        padding: 6px 2px 0;
+        padding: 6px 12px 0 4px;
         text-align: left;
     }
     .version {
         flex: 0 0 auto;
         margin-left: auto;
+        margin-right: 8px;
         white-space: nowrap;
         color: #909db0;
     }
 }
 
 
-/* V0.3: Bedienelemente auf dem iPhone deutlich höher für bessere Touch-Bedienung */
+/* V0.4: Große, gut bedienbare Chart-Schaltflächen auf dem iPhone.
+   !important stellt sicher, dass frühere mobile Regeln sie nicht überschreiben. */
 @media (max-width: 600px) {
     .period-button,
     .resolution-button {
-        min-height: 54px;
-        padding-top: 16px;
-        padding-bottom: 16px;
+        height: 68px !important;
+        min-height: 68px !important;
+        padding: 16px 5px !important;
+        font-size: 15px !important;
+        line-height: 1.2 !important;
+        font-weight: 600 !important;
     }
 }
 
@@ -1719,7 +1724,7 @@ body {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V0.1</span>
+        <span class="version">V0.3</span>
     </div>
 
 </div>
