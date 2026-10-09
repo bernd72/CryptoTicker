@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Crypto Dashboard</title>
 
 <style>
@@ -1143,6 +1143,140 @@ body {
 
     .change-value {
         font-size: 8px;
+    }
+}
+
+
+
+/* iPhone: coins stacked vertically, coin identity above all period buttons */
+@media (max-width: 600px) {
+    body {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    .header {
+        margin-bottom: 6px;
+    }
+
+    .coin-card {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        margin-bottom: 5px;
+        min-height: 0;
+        padding: 0;
+    }
+
+    .coin-info {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 6px 9px 2px;
+        border: 0;
+    }
+
+    .coin-icon {
+        width: 27px;
+        height: 27px;
+        margin-right: 7px;
+        font-size: 14px;
+    }
+
+    .coin-name {
+        font-size: 12px;
+        line-height: 1.1;
+    }
+
+    .coin-symbol {
+        margin-top: 1px;
+        font-size: 8px;
+        line-height: 1.1;
+    }
+
+    .price-area {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        column-gap: 7px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 7px 6px;
+        text-align: left;
+    }
+
+    .price {
+        grid-column: 1;
+        grid-row: 1;
+        font-size: clamp(12px, 3.7vw, 16px);
+        line-height: 1.1;
+    }
+
+    .price-label {
+        grid-column: 2;
+        grid-row: 1;
+        margin: 0;
+        font-size: 7px;
+        letter-spacing: .2px;
+        text-transform: none;
+    }
+
+    .changes {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 4px;
+        width: 100%;
+        margin-top: 5px;
+        overflow: visible;
+    }
+
+    .change {
+        min-width: 0;
+        padding: 4px 2px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .change-label {
+        margin-bottom: 2px;
+        font-size: clamp(6px, 1.8vw, 8px);
+        line-height: 1.1;
+        white-space: nowrap;
+    }
+
+    .change-value {
+        font-size: clamp(8px, 2.4vw, 10px);
+        line-height: 1.1;
+        white-space: nowrap;
+    }
+
+    .footer {
+        margin-top: 3px;
+    }
+}
+
+@media (max-width: 380px) {
+    .coin-info {
+        padding-top: 5px;
+    }
+
+    .coin-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+    }
+
+    .changes {
+        gap: 2px;
+    }
+
+    .change {
+        padding-left: 1px;
+        padding-right: 1px;
     }
 }
 
