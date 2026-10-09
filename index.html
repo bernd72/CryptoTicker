@@ -1,0 +1,3698 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Dashboard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    background:
+        radial-gradient(circle at 50% -10%, #263a5b 0%, #101a2b 38%, #070b13 100%);
+}
+
+body {
+    padding: 25px 14px 40px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.title h1 {
+    margin: 0;
+    font-size: clamp(27px, 5vw, 36px);
+    letter-spacing: -1px;
+}
+
+.title p {
+    margin: 7px 0 0;
+    color: #b9c4d5;
+    font-size: 13px;
+}
+
+.status {
+    color: #c0cad8;
+    font-size: 12px;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: #777;
+}
+
+.status-dot.online {
+    background: #43df78;
+    box-shadow: 0 0 10px rgba(67,223,120,.7);
+}
+
+/* =========================================================
+   COIN CARDS
+========================================================= */
+
+.coin-card {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 145px;
+    margin-bottom: 13px;
+    overflow: hidden;
+    cursor: pointer;
+
+    background:
+        linear-gradient(135deg, rgba(25,35,54,.98), rgba(10,17,29,.98));
+
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 17px;
+
+    box-shadow: 0 10px 35px rgba(0,0,0,.25);
+
+    transition:
+        transform .15s ease,
+        border-color .15s ease;
+}
+
+.coin-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,.18);
+}
+
+.coin-card:active {
+    transform: scale(.99);
+}
+
+.coin-info {
+    display: flex;
+    align-items: center;
+    padding: 21px;
+    border-right: 1px solid rgba(255,255,255,.07);
+}
+
+.coin-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 54px;
+    height: 54px;
+    margin-right: 15px;
+
+    border-radius: 50%;
+    color: #fff;
+    font-size: 25px;
+    font-weight: bold;
+
+    box-shadow: inset 0 0 20px rgba(255,255,255,.12);
+}
+
+.btc {
+    background: linear-gradient(135deg,#f7931a,#d86d00);
+}
+
+.eth {
+    background: linear-gradient(135deg,#627eea,#3d50a0);
+}
+
+.ada {
+    background: linear-gradient(135deg,#3156d8,#1c398f);
+}
+
+.sol {
+    background: linear-gradient(135deg,#9945ff,#14f195);
+}
+
+.ethbtc {
+    background: linear-gradient(135deg,#8b9cff,#5c6edc);
+}
+
+.coin-name {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.coin-symbol {
+    margin-top: 5px;
+    color: #aab6c8;
+    font-size: 12px;
+}
+
+.price-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: 18px 22px;
+}
+
+.price {
+    font-size: 26px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.price-label {
+    margin-top: 3px;
+    color: #aab5c6;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+}
+
+.changes {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
+    margin-top: 15px;
+}
+
+.change {
+    min-width: 0;
+    padding: 8px 7px;
+    border-radius: 9px;
+
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.055);
+
+    cursor: pointer;
+
+    transition:
+        background .15s ease,
+        border-color .15s ease,
+        transform .1s ease;
+}
+
+.change:hover {
+    background: rgba(255,255,255,.10);
+    border-color: rgba(255,255,255,.16);
+}
+
+.change:active {
+    transform: scale(.95);
+}
+
+.change-label {
+    margin-bottom: 4px;
+    color: #cbd4e2;
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+.change-value {
+    color: #e0e6ef;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.positive {
+    color: #55e985;
+}
+
+.negative {
+    color: #ff6d7a;
+}
+
+.neutral {
+    color: #d5dce7;
+}
+
+.footer {
+    margin-top: 20px;
+    color: #909db0;
+    font-size: 10px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* =========================================================
+   CHART OVERLAY
+========================================================= */
+
+#chartOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    padding: 16px;
+
+    background: rgba(2,5,10,.84);
+
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+#chartOverlay.visible {
+    display: flex;
+}
+
+.chart-window {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 1100px;
+    max-height: 94vh;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(145deg, #151f31, #0b111d);
+
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 20px;
+
+    box-shadow: 0 30px 100px rgba(0,0,0,.65);
+}
+
+/* =========================================================
+   CHART HEADER
+========================================================= */
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 17px 20px;
+
+    border-bottom: 1px solid rgba(255,255,255,.09);
+}
+
+.chart-title {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 12px;
+}
+
+.chart-title-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+
+    width: 43px;
+    height: 43px;
+
+    border-radius: 50%;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.chart-title-name {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.chart-title-price {
+    margin-top: 3px;
+    color: #c6cfdd;
+    font-size: 12px;
+}
+
+.close-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    color: #e5eaf2;
+    background: rgba(255,255,255,.08);
+
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    background: rgba(255,255,255,.15);
+}
+
+/* =========================================================
+   ZEITRAUM + AUFLÖSUNG
+========================================================= */
+
+.chart-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 13px 20px 0;
+}
+
+.periods {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
+    flex: 1;
+}
+
+.period-button,
+.resolution-button {
+    min-width: 0;
+
+    padding: 10px 7px;
+
+    color: #e0e7f1;
+    background: rgba(255,255,255,.07);
+
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background .15s ease,
+        border-color .15s ease,
+        color .15s ease,
+        transform .1s ease;
+}
+
+.period-button:hover,
+.resolution-button:hover {
+    color: #fff;
+    background: rgba(255,255,255,.14);
+    border-color: rgba(255,255,255,.23);
+}
+
+.period-button.active,
+.resolution-button.active {
+    color: #fff;
+    background: #3d6fd1;
+    border-color: #6690e8;
+
+    box-shadow: 0 0 18px rgba(61,111,209,.35);
+}
+
+.period-button:active,
+.resolution-button:active {
+    transform: scale(.96);
+}
+
+.resolution-switch {
+    display: flex;
+    flex-shrink: 0;
+
+    padding: 3px;
+
+    border-radius: 10px;
+
+    background: rgba(0,0,0,.22);
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.resolution-button {
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+.resolution-button.active {
+    background: #3d6fd1;
+}
+
+/* =========================================================
+   CHART
+========================================================= */
+
+.chart-container {
+    position: relative;
+
+    width: calc(100% - 40px);
+    height: 470px;
+
+    margin: 10px 20px 16px;
+
+    overflow: hidden;
+
+    border-radius: 12px;
+
+    background: rgba(5,10,18,.65);
+
+    touch-action: none;
+}
+
+#chartCanvas {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    cursor: crosshair;
+
+    touch-action: none;
+}
+
+#chartTooltip {
+    position: absolute;
+
+    display: none;
+
+    z-index: 20;
+
+    min-width: 145px;
+
+    padding: 9px 11px;
+
+    pointer-events: none;
+
+    border-radius: 9px;
+
+    background: rgba(8,14,25,.94);
+
+    border: 1px solid rgba(255,255,255,.17);
+
+    box-shadow: 0 8px 25px rgba(0,0,0,.45);
+
+    color: #fff;
+
+    white-space: nowrap;
+}
+
+.tooltip-date {
+    color: #c6d0df;
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.tooltip-price {
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.tooltip-dot {
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+
+    margin-right: 6px;
+
+    border-radius: 50%;
+
+    background: #55e985;
+}
+
+#chartLoading {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(5,10,18,.55);
+}
+
+.spinner {
+    width: 28px;
+    height: 28px;
+
+    border: 3px solid rgba(255,255,255,.12);
+    border-top-color: #5790ff;
+
+    border-radius: 50%;
+
+    animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.chart-bottom {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 0 20px 17px;
+
+    color: #cbd4e0;
+    font-size: 10px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .coin-card {
+        grid-template-columns: 200px 1fr;
+    }
+
+    .coin-info {
+        padding: 17px;
+    }
+
+    .price-area {
+        padding: 16px;
+    }
+
+    .price {
+        font-size: 23px;
+    }
+
+    .change {
+        padding: 7px 6px;
+    }
+
+    .change-label {
+        font-size: 8px;
+    }
+
+    .change-value {
+        font-size: 11px;
+    }
+}
+
+/* =========================================================
+   SMARTPHONE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 17px 9px 30px;
+    }
+
+    .header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 9px;
+        margin-bottom: 15px;
+    }
+
+    .title h1 {
+        font-size: 27px;
+    }
+
+    .title p {
+        font-size: 12px;
+    }
+
+    .status {
+        font-size: 11px;
+    }
+
+    .coin-card {
+        display: block;
+        min-height: 0;
+        margin-bottom: 10px;
+        border-radius: 15px;
+    }
+
+    .coin-info {
+        min-height: 70px;
+        padding: 13px 14px;
+
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    .coin-icon {
+        width: 44px;
+        height: 44px;
+        margin-right: 12px;
+        font-size: 21px;
+    }
+
+    .coin-name {
+        font-size: 17px;
+    }
+
+    .coin-symbol {
+        margin-top: 3px;
+        font-size: 11px;
+    }
+
+    .price-area {
+        padding: 13px 14px 15px;
+    }
+
+    .price {
+        font-size: 23px;
+    }
+
+    .changes {
+        display: flex;
+        gap: 6px;
+        margin-top: 11px;
+
+        overflow-x: auto;
+
+        padding-bottom: 3px;
+
+        scrollbar-width: thin;
+        scrollbar-color: #52617a transparent;
+    }
+
+    .change {
+        flex: 0 0 72px;
+        padding: 7px 6px;
+    }
+
+    .change-label {
+        font-size: 8px;
+    }
+
+    .change-value {
+        font-size: 11px;
+    }
+
+    #chartOverlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .chart-window {
+        width: 100%;
+        max-height: 94vh;
+
+        border-radius: 18px 18px 0 0;
+    }
+
+    .chart-header {
+        padding: 13px 14px;
+    }
+
+    .chart-title {
+        gap: 10px;
+    }
+
+    .chart-title-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .chart-title-name {
+        font-size: 18px;
+    }
+
+    .chart-title-price {
+        font-size: 11px;
+    }
+
+    .close-button {
+        width: 38px;
+        height: 38px;
+        font-size: 23px;
+    }
+
+    .chart-controls {
+        display: block;
+        padding: 9px 12px 0;
+    }
+
+    .periods {
+        gap: 5px;
+    }
+
+    .period-button {
+        padding: 10px 2px;
+        font-size: 10px;
+    }
+
+    .resolution-switch {
+        width: 100%;
+        margin-top: 7px;
+    }
+
+    .resolution-button {
+        flex: 1;
+        padding: 9px 4px;
+        font-size: 10px;
+    }
+
+    .chart-container {
+        width: calc(100% - 24px);
+        height: min(58vh,390px);
+        margin: 8px 12px 12px;
+        border-radius: 10px;
+    }
+
+    .chart-bottom {
+        padding: 0 12px 12px;
+        font-size: 9px;
+    }
+
+    #chartTooltip {
+        min-width: 125px;
+        padding: 7px 9px;
+    }
+
+    .tooltip-date {
+        font-size: 9px;
+    }
+
+    .tooltip-price {
+        font-size: 12px;
+    }
+}
+
+/* =========================================================
+   SEHR KLEINE SMARTPHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    body {
+        padding: 14px 8px 25px;
+    }
+
+    .title h1 {
+        font-size: 24px;
+    }
+
+    .coin-info {
+        min-height: 66px;
+        padding: 11px 12px;
+    }
+
+    .coin-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        font-size: 19px;
+    }
+
+    .coin-name {
+        font-size: 16px;
+    }
+
+    .price-area {
+        padding: 11px 12px 13px;
+    }
+
+    .price {
+        font-size: 21px;
+    }
+
+    .change {
+        flex-basis: 68px;
+    }
+
+    .period-button {
+        font-size: 9px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="title">
+            <h1>Crypto Markt</h1>
+
+            <p>
+                Zeitraum anklicken, um direkt den passenden Chart zu öffnen
+            </p>
+        </div>
+
+        <div class="status">
+
+            <span
+                id="statusDot"
+                class="status-dot">
+            </span>
+
+            <span id="statusText">
+                Daten werden geladen …
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         BITCOIN
+    ====================================================== -->
+
+    <div
+        class="coin-card"
+        data-coin="BTC">
+
+        <div class="coin-info">
+
+            <div class="coin-icon btc">
+                ₿
+            </div>
+
+            <div>
+                <div class="coin-name">
+                    Bitcoin
+                </div>
+
+                <div class="coin-symbol">
+                    BTC / EUR
+                </div>
+            </div>
+
+        </div>
+
+        <div class="price-area">
+
+            <div
+                class="price"
+                id="BTC-price">
+                Laden …
+            </div>
+
+            <div class="price-label">
+                aktueller Preis
+            </div>
+
+            <div class="changes">
+
+                <div class="change" data-period="1h">
+                    <div class="change-label">1 Stunde</div>
+                    <div id="BTC-1h" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1d">
+                    <div class="change-label">24 Std.</div>
+                    <div id="BTC-24h" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1w">
+                    <div class="change-label">1 Woche</div>
+                    <div id="BTC-7d" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1m">
+                    <div class="change-label">1 Monat</div>
+                    <div id="BTC-30d" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1y">
+                    <div class="change-label">1 Jahr</div>
+                    <div id="BTC-365d" class="change-value neutral">…</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         ETHEREUM
+    ====================================================== -->
+
+    <div
+        class="coin-card"
+        data-coin="ETH">
+
+        <div class="coin-info">
+
+            <div class="coin-icon eth">
+                ◆
+            </div>
+
+            <div>
+                <div class="coin-name">
+                    Ethereum
+                </div>
+
+                <div class="coin-symbol">
+                    ETH / EUR
+                </div>
+            </div>
+
+        </div>
+
+        <div class="price-area">
+
+            <div
+                class="price"
+                id="ETH-price">
+                Laden …
+            </div>
+
+            <div class="price-label">
+                aktueller Preis
+            </div>
+
+            <div class="changes">
+
+                <div class="change" data-period="1h">
+                    <div class="change-label">1 Stunde</div>
+                    <div id="ETH-1h" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1d">
+                    <div class="change-label">24 Std.</div>
+                    <div id="ETH-24h" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1w">
+                    <div class="change-label">1 Woche</div>
+                    <div id="ETH-7d" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1m">
+                    <div class="change-label">1 Monat</div>
+                    <div id="ETH-30d" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1y">
+                    <div class="change-label">1 Jahr</div>
+                    <div id="ETH-365d" class="change-value neutral">…</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         CARDANO
+    ====================================================== -->
+
+    <div
+        class="coin-card"
+        data-coin="ADA">
+
+        <div class="coin-info">
+
+            <div class="coin-icon ada">
+                ₳
+            </div>
+
+            <div>
+                <div class="coin-name">
+                    Cardano
+                </div>
+
+                <div class="coin-symbol">
+                    ADA / EUR
+                </div>
+            </div>
+
+        </div>
+
+        <div class="price-area">
+
+            <div
+                class="price"
+                id="ADA-price">
+                Laden …
+            </div>
+
+            <div class="price-label">
+                aktueller Preis
+            </div>
+
+            <div class="changes">
+
+                <div class="change" data-period="1h">
+                    <div class="change-label">1 Stunde</div>
+                    <div id="ADA-1h" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1d">
+                    <div class="change-label">24 Std.</div>
+                    <div id="ADA-24h" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1w">
+                    <div class="change-label">1 Woche</div>
+                    <div id="ADA-7d" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1m">
+                    <div class="change-label">1 Monat</div>
+                    <div id="ADA-30d" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1y">
+                    <div class="change-label">1 Jahr</div>
+                    <div id="ADA-365d" class="change-value neutral">…</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         SOLANA
+    ====================================================== -->
+
+    <div
+        class="coin-card"
+        data-coin="SOL">
+
+        <div class="coin-info">
+
+            <div class="coin-icon sol">
+                S
+            </div>
+
+            <div>
+                <div class="coin-name">
+                    Solana
+                </div>
+
+                <div class="coin-symbol">
+                    SOL / EUR
+                </div>
+            </div>
+
+        </div>
+
+        <div class="price-area">
+
+            <div
+                class="price"
+                id="SOL-price">
+                Laden …
+            </div>
+
+            <div class="price-label">
+                aktueller Preis
+            </div>
+
+            <div class="changes">
+
+                <div class="change" data-period="1h">
+                    <div class="change-label">1 Stunde</div>
+                    <div id="SOL-1h" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1d">
+                    <div class="change-label">24 Std.</div>
+                    <div id="SOL-24h" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1w">
+                    <div class="change-label">1 Woche</div>
+                    <div id="SOL-7d" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1m">
+                    <div class="change-label">1 Monat</div>
+                    <div id="SOL-30d" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1y">
+                    <div class="change-label">1 Jahr</div>
+                    <div id="SOL-365d" class="change-value neutral">…</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         ETHEREUM / BITCOIN
+    ====================================================== -->
+
+    <div
+        class="coin-card"
+        data-coin="ETHBTC">
+
+        <div class="coin-info">
+
+            <div class="coin-icon ethbtc">
+                ◆
+            </div>
+
+            <div>
+                <div class="coin-name">
+                    Ethereum / Bitcoin
+                </div>
+
+                <div class="coin-symbol">
+                    ETH / BTC
+                </div>
+            </div>
+
+        </div>
+
+        <div class="price-area">
+
+            <div
+                class="price"
+                id="ETHBTC-price">
+                Laden …
+            </div>
+
+            <div class="price-label">
+                aktueller Kurs
+            </div>
+
+            <div class="changes">
+
+                <div class="change" data-period="1h">
+                    <div class="change-label">1 Stunde</div>
+                    <div id="ETHBTC-1h" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1d">
+                    <div class="change-label">24 Std.</div>
+                    <div id="ETHBTC-24h" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1w">
+                    <div class="change-label">1 Woche</div>
+                    <div id="ETHBTC-7d" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1m">
+                    <div class="change-label">1 Monat</div>
+                    <div id="ETHBTC-30d" class="change-value neutral">…</div>
+                </div>
+
+                <div class="change" data-period="1y">
+                    <div class="change-label">1 Jahr</div>
+                    <div id="ETHBTC-365d" class="change-value neutral">…</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Live-Marktdaten · Aktualisierung alle 30 Sekunden
+    </div>
+
+</div>
+
+<!-- =========================================================
+     CHART
+========================================================= -->
+
+<div id="chartOverlay">
+
+    <div class="chart-window">
+
+        <div class="chart-header">
+
+            <div class="chart-title">
+
+                <div
+                    id="chartIcon"
+                    class="chart-title-icon">
+                </div>
+
+                <div>
+
+                    <div
+                        id="chartCoinName"
+                        class="chart-title-name">
+                        Bitcoin
+                    </div>
+
+                    <div
+                        id="chartCoinPrice"
+                        class="chart-title-price">
+                        –
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                id="closeChart"
+                class="close-button"
+                aria-label="Chart schließen">
+                ×
+            </button>
+
+        </div>
+
+        <div class="chart-controls">
+
+            <div class="periods">
+
+                <button class="period-button" data-period="1h">
+                    1 Stunde
+                </button>
+
+                <button class="period-button" data-period="1d">
+                    1 Tag
+                </button>
+
+                <button class="period-button" data-period="1w">
+                    1 Woche
+                </button>
+
+                <button class="period-button" data-period="1m">
+                    1 Monat
+                </button>
+
+                <button class="period-button" data-period="1y">
+                    1 Jahr
+                </button>
+
+            </div>
+
+            <div class="resolution-switch">
+
+                <button
+                    id="highResButton"
+                    class="resolution-button active"
+                    data-resolution="high">
+                    High-Res
+                </button>
+
+                <button
+                    id="lowResButton"
+                    class="resolution-button"
+                    data-resolution="low">
+                    Low-Res
+                </button>
+
+            </div>
+
+        </div>
+
+        <div
+            class="chart-container"
+            id="chartContainer">
+
+            <canvas
+                id="chartCanvas">
+            </canvas>
+
+            <div id="chartTooltip">
+
+                <div
+                    id="tooltipDate"
+                    class="tooltip-date">
+                    –
+                </div>
+
+                <div
+                    id="tooltipPrice"
+                    class="tooltip-price">
+
+                    <span class="tooltip-dot"></span>
+
+                    <span id="tooltipPriceText">
+                        –
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div id="chartLoading">
+
+                <div class="spinner"></div>
+
+            </div>
+
+        </div>
+
+        <div class="chart-bottom">
+
+            <span id="chartStart">
+                –
+            </span>
+
+            <span>
+                EUR
+            </span>
+
+            <span id="chartEnd">
+                –
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   KONFIGURATION
+========================================================= */
+
+const API =
+    "https://data-api.binance.vision";
+
+const COINS = {
+
+    BTC: {
+        symbol: "BTCEUR",
+        name: "Bitcoin",
+        icon: "₿",
+        css: "btc",
+        type: "eur"
+    },
+
+    ETH: {
+        symbol: "ETHEUR",
+        name: "Ethereum",
+        icon: "◆",
+        css: "eth",
+        type: "eur"
+    },
+
+    ADA: {
+        symbol: "ADAEUR",
+        name: "Cardano",
+        icon: "₳",
+        css: "ada",
+        type: "eur"
+    },
+
+    SOL: {
+        symbol: "SOLEUR",
+        name: "Solana",
+        icon: "S",
+        css: "sol",
+        type: "eur"
+    },
+
+    ETHBTC: {
+        symbol: "ETHBTC",
+        name: "Ethereum / Bitcoin",
+        icon: "◆",
+        css: "ethbtc",
+        type: "btc"
+    }
+
+};
+
+/* =========================================================
+   ZUSTAND
+========================================================= */
+
+let selectedCoin = "BTC";
+
+let selectedPeriod = "1d";
+
+let resolution = "high";
+
+let currentChartData = [];
+
+let chartGeometry = null;
+
+/* =========================================================
+   API
+========================================================= */
+
+async function api(
+    endpoint,
+    params
+) {
+
+    const query =
+        new URLSearchParams(params);
+
+    const response =
+        await fetch(
+            API +
+            endpoint +
+            "?" +
+            query.toString()
+        );
+
+    if (!response.ok) {
+
+        throw new Error(
+            "API Fehler " +
+            response.status
+        );
+
+    }
+
+    return response.json();
+}
+
+/* =========================================================
+   AKTUELLER PREIS
+========================================================= */
+
+async function getPrice(symbol) {
+
+    const data =
+        await api(
+            "/api/v3/ticker/price",
+            {
+                symbol
+            }
+        );
+
+    return Number(
+        data.price
+    );
+}
+
+/* =========================================================
+   24-STUNDEN-DATEN
+========================================================= */
+
+async function get24h(symbol) {
+
+    const data =
+        await api(
+            "/api/v3/ticker/24hr",
+            {
+                symbol
+            }
+        );
+
+    return Number(
+        data.priceChangePercent
+    );
+}
+
+/* =========================================================
+   HISTORIEN-KONFIGURATION
+========================================================= */
+
+function getHistoryConfig(period) {
+
+    if (resolution === "high") {
+
+        switch (period) {
+
+            case "1h":
+                return {
+                    interval: "1m",
+                    limit: 60
+                };
+
+            case "1d":
+                return {
+                    interval: "5m",
+                    limit: 288
+                };
+
+            case "1w":
+                return {
+                    interval: "30m",
+                    limit: 336
+                };
+
+            case "1m":
+                return {
+                    interval: "2h",
+                    limit: 360
+                };
+
+            case "1y":
+                /*
+                    1 Jahr / 6 Stunden:
+
+                    365 * 24 / 6
+                    = 1460 Kerzen
+                */
+                return {
+                    interval: "6h",
+                    limit: 1460
+                };
+
+        }
+
+    } else {
+
+        switch (period) {
+
+            case "1h":
+                return {
+                    interval: "5m",
+                    limit: 12
+                };
+
+            case "1d":
+                return {
+                    interval: "1h",
+                    limit: 24
+                };
+
+            case "1w":
+                return {
+                    interval: "4h",
+                    limit: 42
+                };
+
+            case "1m":
+                return {
+                    interval: "1d",
+                    limit: 31
+                };
+
+            case "1y":
+                return {
+                    interval: "1d",
+                    limit: 365
+                };
+
+        }
+
+    }
+
+    return {
+        interval: "1h",
+        limit: 24
+    };
+
+}
+
+/* =========================================================
+   HISTORISCHE DATEN
+
+   Binance erlaubt maximal 1000 Kerzen pro Anfrage.
+
+   Bei 1 Jahr High-Res werden deshalb automatisch
+   mehrere Anfragen gemacht.
+========================================================= */
+
+async function getHistory(
+    symbol,
+    period
+) {
+
+    const config =
+        getHistoryConfig(
+            period
+        );
+
+    const totalLimit =
+        config.limit;
+
+    const maxPerRequest =
+        1000;
+
+    /*
+        Normale Einzelabfrage.
+    */
+
+    if (
+        totalLimit <=
+        maxPerRequest
+    ) {
+
+        const data =
+            await api(
+                "/api/v3/klines",
+                {
+                    symbol,
+                    interval:
+                        config.interval,
+                    limit:
+                        totalLimit
+                }
+            );
+
+        return data.map(
+            candle => ({
+
+                time:
+                    Number(candle[0]),
+
+                open:
+                    Number(candle[1]),
+
+                high:
+                    Number(candle[2]),
+
+                low:
+                    Number(candle[3]),
+
+                close:
+                    Number(candle[4])
+
+            })
+        );
+
+    }
+
+    /*
+        Mehrere Anfragen.
+
+        Wir laden von der Gegenwart
+        rückwärts ältere Kerzen.
+    */
+
+    let allData = [];
+
+    let endTime =
+        Date.now();
+
+    while (
+        allData.length <
+        totalLimit
+    ) {
+
+        const remaining =
+            totalLimit -
+            allData.length;
+
+        const requestLimit =
+            Math.min(
+                maxPerRequest,
+                remaining
+            );
+
+        const data =
+            await api(
+                "/api/v3/klines",
+                {
+                    symbol,
+                    interval:
+                        config.interval,
+                    limit:
+                        requestLimit,
+                    endTime
+                }
+            );
+
+        if (
+            !data ||
+            data.length === 0
+        ) {
+
+            break;
+
+        }
+
+        /*
+            Ältere Daten vor die
+            bereits geladenen Daten setzen.
+        */
+
+        allData =
+            data.concat(
+                allData
+            );
+
+        /*
+            Zeitstempel der ältesten Kerze.
+        */
+
+        const oldestTime =
+            Number(
+                data[0][0]
+            );
+
+        /*
+            Wenn weniger Kerzen als angefordert
+            zurückkommen, sind wir am Anfang
+            der verfügbaren Historie.
+        */
+
+        if (
+            data.length <
+            requestLimit
+        ) {
+
+            break;
+
+        }
+
+        /*
+            Eine Millisekunde vor der ältesten
+            Kerze weitermachen.
+        */
+
+        endTime =
+            oldestTime - 1;
+
+        if (
+            !Number.isFinite(
+                endTime
+            )
+        ) {
+
+            break;
+
+        }
+
+    }
+
+    /*
+        Chronologisch sortieren.
+    */
+
+    allData.sort(
+        (a, b) =>
+            Number(a[0]) -
+            Number(b[0])
+    );
+
+    /*
+        Sicherheitshalber nur die gewünschte
+        Anzahl Kerzen behalten.
+    */
+
+    if (
+        allData.length >
+        totalLimit
+    ) {
+
+        allData =
+            allData.slice(
+                allData.length -
+                totalLimit
+            );
+
+    }
+
+    return allData.map(
+        candle => ({
+
+            time:
+                Number(candle[0]),
+
+            open:
+                Number(candle[1]),
+
+            high:
+                Number(candle[2]),
+
+            low:
+                Number(candle[3]),
+
+            close:
+                Number(candle[4])
+
+        })
+    );
+
+}
+
+/* =========================================================
+   PREISFORMAT EUR
+========================================================= */
+
+function formatPrice(value) {
+
+    return value.toLocaleString(
+        "de-DE",
+        {
+            style: "currency",
+            currency: "EUR",
+
+            minimumFractionDigits:
+                value >= 1
+                    ? 2
+                    : 4,
+
+            maximumFractionDigits:
+                value >= 1
+                    ? 2
+                    : 6
+        }
+    );
+
+}
+
+/* =========================================================
+   ETH/BTC PREISFORMAT
+========================================================= */
+
+function formatBTCPrice(value) {
+
+    return value.toLocaleString(
+        "de-DE",
+        {
+            minimumFractionDigits: 4,
+            maximumFractionDigits: 6
+        }
+    ) + " BTC";
+
+}
+
+/* =========================================================
+   PREISFORMAT JE NACH COIN
+========================================================= */
+
+function formatCoinPrice(
+    coin,
+    value
+) {
+
+    if (
+        COINS[coin] &&
+        COINS[coin].type === "btc"
+    ) {
+
+        return formatBTCPrice(
+            value
+        );
+
+    }
+
+    return formatPrice(
+        value
+    );
+
+}
+
+/* =========================================================
+   PROZENT
+========================================================= */
+
+function formatPercent(value) {
+
+    if (!Number.isFinite(value)) {
+        return "—";
+    }
+
+    return (
+        value >= 0 ? "+" : ""
+    ) +
+    value.toFixed(2) +
+    "%";
+
+}
+
+/* =========================================================
+   ÄNDERUNG BERECHNEN
+========================================================= */
+
+function calculateChange(
+    history,
+    current,
+    hours
+) {
+
+    if (
+        !history ||
+        history.length === 0
+    ) {
+
+        return null;
+
+    }
+
+    const target =
+        Date.now() -
+        hours *
+        60 *
+        60 *
+        1000;
+
+    let closest =
+        history[0];
+
+    let difference =
+        Math.abs(
+            closest.time -
+            target
+        );
+
+    for (
+        const candle of history
+    ) {
+
+        const distance =
+            Math.abs(
+                candle.time -
+                target
+            );
+
+        if (
+            distance <
+            difference
+        ) {
+
+            difference =
+                distance;
+
+            closest =
+                candle;
+
+        }
+
+    }
+
+    if (
+        !closest ||
+        closest.close <= 0
+    ) {
+
+        return null;
+
+    }
+
+    return (
+        (
+            current -
+            closest.close
+        ) /
+        closest.close
+    ) *
+    100;
+
+}
+
+/* =========================================================
+   FARBE DER ÄNDERUNG
+========================================================= */
+
+function changeClass(value) {
+
+    if (value > 0) {
+        return "positive";
+    }
+
+    if (value < 0) {
+        return "negative";
+    }
+
+    return "neutral";
+
+}
+
+/* =========================================================
+   ÄNDERUNG SETZEN
+========================================================= */
+
+function setChange(
+    coin,
+    period,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            coin + "-" + period
+        );
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        formatPercent(value);
+
+    element.className =
+        "change-value " +
+        changeClass(value);
+
+}
+
+/* =========================================================
+   COIN LADEN
+========================================================= */
+
+async function loadCoin(coin) {
+
+    const data =
+        COINS[coin];
+
+    try {
+
+        const [
+            price,
+            change24,
+            history1h,
+            history1w,
+            history1m,
+            history1y
+        ] =
+        await Promise.all([
+
+            getPrice(data.symbol),
+
+            get24h(data.symbol),
+
+            getHistory(
+                data.symbol,
+                "1h"
+            ),
+
+            getHistory(
+                data.symbol,
+                "1w"
+            ),
+
+            getHistory(
+                data.symbol,
+                "1m"
+            ),
+
+            getHistory(
+                data.symbol,
+                "1y"
+            )
+
+        ]);
+
+        document.getElementById(
+            coin + "-price"
+        ).textContent =
+            formatCoinPrice(
+                coin,
+                price
+            );
+
+        setChange(
+            coin,
+            "1h",
+            calculateChange(
+                history1h,
+                price,
+                1
+            )
+        );
+
+        setChange(
+            coin,
+            "24h",
+            change24
+        );
+
+        setChange(
+            coin,
+            "7d",
+            calculateChange(
+                history1w,
+                price,
+                7 * 24
+            )
+        );
+
+        setChange(
+            coin,
+            "30d",
+            calculateChange(
+                history1m,
+                price,
+                30 * 24
+            )
+        );
+
+        setChange(
+            coin,
+            "365d",
+            calculateChange(
+                history1y,
+                price,
+                365 * 24
+            )
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            coin,
+            error
+        );
+
+        document.getElementById(
+            coin + "-price"
+        ).textContent =
+            "Fehler";
+
+    }
+
+}
+
+/* =========================================================
+   ALLE COINS LADEN
+========================================================= */
+
+async function loadAll() {
+
+    setStatus(
+        "Daten werden geladen …",
+        false
+    );
+
+    await Promise.all(
+        Object.keys(COINS)
+            .map(
+                coin =>
+                    loadCoin(coin)
+            )
+    );
+
+    setStatus(
+        "Live-Daten",
+        true
+    );
+
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(
+    text,
+    online
+) {
+
+    document.getElementById(
+        "statusText"
+    ).textContent =
+        text;
+
+    document
+        .getElementById(
+            "statusDot"
+        )
+        .classList.toggle(
+            "online",
+            online
+        );
+
+}
+
+/* =========================================================
+   CHART ÖFFNEN
+========================================================= */
+
+function openChart(
+    coin,
+    period = "1d"
+) {
+
+    selectedCoin =
+        coin;
+
+    selectedPeriod =
+        period;
+
+    const data =
+        COINS[coin];
+
+    document.getElementById(
+        "chartCoinName"
+    ).textContent =
+        data.name;
+
+    document.getElementById(
+        "chartIcon"
+    ).textContent =
+        data.icon;
+
+    document.getElementById(
+        "chartIcon"
+    ).className =
+        "chart-title-icon " +
+        data.css;
+
+    updateResolutionButtons();
+
+    updatePeriodButtons();
+
+    document
+        .getElementById(
+            "chartOverlay"
+        )
+        .classList.add(
+            "visible"
+        );
+
+    hideTooltip();
+
+    loadChart();
+
+}
+
+/* =========================================================
+   PERIOD BUTTONS
+========================================================= */
+
+function updatePeriodButtons() {
+
+    document
+        .querySelectorAll(
+            ".period-button"
+        )
+        .forEach(
+            button => {
+
+                button.classList.toggle(
+                    "active",
+                    button.dataset.period ===
+                    selectedPeriod
+                );
+
+            }
+        );
+
+}
+
+/* =========================================================
+   AUFLÖSUNGS-BUTTONS
+========================================================= */
+
+function updateResolutionButtons() {
+
+    document
+        .querySelectorAll(
+            ".resolution-button"
+        )
+        .forEach(
+            button => {
+
+                button.classList.toggle(
+                    "active",
+                    button.dataset.resolution ===
+                    resolution
+                );
+
+            }
+        );
+
+}
+
+/* =========================================================
+   CHART SCHLIESSEN
+========================================================= */
+
+function closeChart() {
+
+    document
+        .getElementById(
+            "chartOverlay"
+        )
+        .classList.remove(
+            "visible"
+        );
+
+    hideTooltip();
+
+}
+
+/* =========================================================
+   CHART LADEN
+========================================================= */
+
+async function loadChart() {
+
+    const data =
+        COINS[selectedCoin];
+
+    const loading =
+        document.getElementById(
+            "chartLoading"
+        );
+
+    loading.style.display =
+        "flex";
+
+    hideTooltip();
+
+    try {
+
+        const price =
+            await getPrice(
+                data.symbol
+            );
+
+        document.getElementById(
+            "chartCoinPrice"
+        ).textContent =
+            formatCoinPrice(
+                selectedCoin,
+                price
+            );
+
+        const history =
+            await getHistory(
+                data.symbol,
+                selectedPeriod
+            );
+
+        currentChartData =
+            history;
+
+        drawChart(
+            history
+        );
+
+        if (history.length) {
+
+            document.getElementById(
+                "chartStart"
+            ).textContent =
+                formatDate(
+                    new Date(
+                        history[0].time
+                    )
+                );
+
+            document.getElementById(
+                "chartEnd"
+            ).textContent =
+                formatDate(
+                    new Date(
+                        history[
+                            history.length - 1
+                        ].time
+                    )
+                );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        currentChartData = [];
+
+        drawError();
+
+    }
+
+    finally {
+
+        loading.style.display =
+            "none";
+
+    }
+
+}
+
+/* =========================================================
+   DATUM
+========================================================= */
+
+function formatDate(date) {
+
+    if (
+        selectedPeriod === "1h" ||
+        selectedPeriod === "1d" ||
+        selectedPeriod === "1w"
+    ) {
+
+        return date.toLocaleString(
+            "de-DE",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    }
+
+    return date.toLocaleDateString(
+        "de-DE",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    );
+
+}
+
+/* =========================================================
+   CHART PREISFORMAT
+========================================================= */
+
+function formatChartPrice(value) {
+
+    /*
+        ETH/BTC soll im Chart in BTC
+        statt EUR dargestellt werden.
+    */
+
+    if (
+        COINS[selectedCoin].type === "btc"
+    ) {
+
+        if (value >= 1) {
+            return value.toFixed(2);
+        }
+
+        return value.toFixed(4);
+
+    }
+
+    if (value >= 1000) {
+
+        return (
+            value / 1000
+        ).toFixed(1) + "k";
+
+    }
+
+    if (value >= 1) {
+
+        return value.toFixed(2);
+
+    }
+
+    return value.toFixed(4);
+
+}
+
+/* =========================================================
+   CHART ZEICHNEN
+========================================================= */
+
+function drawChart(data) {
+
+    const canvas =
+        document.getElementById(
+            "chartCanvas"
+        );
+
+    const container =
+        canvas.parentElement;
+
+    const dpr =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
+    const width =
+        container.clientWidth;
+
+    const height =
+        container.clientHeight;
+
+    canvas.width =
+        width * dpr;
+
+    canvas.height =
+        height * dpr;
+
+    canvas.style.width =
+        width + "px";
+
+    canvas.style.height =
+        height + "px";
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+    if (
+        !data ||
+        data.length < 2
+    ) {
+
+        chartGeometry = null;
+
+        return;
+
+    }
+
+    const mobile =
+        width < 600;
+
+    const left =
+        mobile ? 53 : 70;
+
+    const right =
+        mobile ? 10 : 20;
+
+    const top = 20;
+
+    const bottom =
+        mobile ? 34 : 42;
+
+    const chartWidth =
+        width -
+        left -
+        right;
+
+    const chartHeight =
+        height -
+        top -
+        bottom;
+
+    const prices =
+        data.map(
+            item =>
+                item.close
+        );
+
+    let min =
+        Math.min(
+            ...prices
+        );
+
+    let max =
+        Math.max(
+            ...prices
+        );
+
+    let range =
+        max - min;
+
+    if (range === 0) {
+        range = max * .01;
+    }
+
+    min -= range * .08;
+    max += range * .08;
+
+    const rising =
+        prices[
+            prices.length - 1
+        ] >= prices[0];
+
+    const lineColor =
+        rising
+            ? "#42df78"
+            : "#ff5d6c";
+
+    const fillColor =
+        rising
+            ? "rgba(66,223,120,.14)"
+            : "rgba(255,93,108,.14)";
+
+    chartGeometry = {
+
+        left,
+        right,
+        top,
+        bottom,
+
+        width,
+        height,
+
+        chartWidth,
+        chartHeight,
+
+        min,
+        max,
+
+        points: []
+
+    };
+
+    /* Hintergrund */
+
+    ctx.fillStyle =
+        "#080e18";
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+    /* Gitter */
+
+    const gridLines = 5;
+
+    ctx.font =
+        mobile
+            ? "10px Arial"
+            : "12px Arial";
+
+    for (
+        let i = 0;
+        i <= gridLines;
+        i++
+    ) {
+
+        const y =
+            top +
+            (
+                i /
+                gridLines
+            ) *
+            chartHeight;
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,.075)";
+
+        ctx.lineWidth = 1;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            left,
+            y
+        );
+
+        ctx.lineTo(
+            width - right,
+            y
+        );
+
+        ctx.stroke();
+
+        const value =
+            max -
+            (
+                i /
+                gridLines
+            ) *
+            (
+                max - min
+            );
+
+        ctx.fillStyle =
+            "#d0d8e4";
+
+        ctx.textAlign =
+            "right";
+
+        ctx.fillText(
+            formatChartPrice(value),
+            left - 8,
+            y + 4
+        );
+
+    }
+
+    /* Punkte */
+
+    const points = [];
+
+    for (
+        let i = 0;
+        i < data.length;
+        i++
+    ) {
+
+        const x =
+            left +
+            (
+                i /
+                (data.length - 1)
+            ) *
+            chartWidth;
+
+        const y =
+            top +
+            (
+                1 -
+                (
+                    data[i].close - min
+                ) /
+                (
+                    max - min
+                )
+            ) *
+            chartHeight;
+
+        points.push({
+            x,
+            y
+        });
+
+    }
+
+    chartGeometry.points =
+        points;
+
+    /* Fläche */
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        points[0].x,
+        points[0].y
+    );
+
+    for (
+        const point of points
+    ) {
+
+        ctx.lineTo(
+            point.x,
+            point.y
+        );
+
+    }
+
+    ctx.lineTo(
+        points[
+            points.length - 1
+        ].x,
+        height - bottom
+    );
+
+    ctx.lineTo(
+        points[0].x,
+        height - bottom
+    );
+
+    ctx.closePath();
+
+    const gradient =
+        ctx.createLinearGradient(
+            0,
+            top,
+            0,
+            height
+        );
+
+    gradient.addColorStop(
+        0,
+        fillColor
+    );
+
+    gradient.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+    ctx.fillStyle =
+        gradient;
+
+    ctx.fill();
+
+    /* Linie */
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        points[0].x,
+        points[0].y
+    );
+
+    for (
+        const point of points
+    ) {
+
+        ctx.lineTo(
+            point.x,
+            point.y
+        );
+
+    }
+
+    ctx.strokeStyle =
+        lineColor;
+
+    ctx.lineWidth =
+        mobile ? 2 : 2.5;
+
+    ctx.lineJoin =
+        "round";
+
+    ctx.lineCap =
+        "round";
+
+    ctx.shadowColor =
+        lineColor;
+
+    ctx.shadowBlur = 7;
+
+    ctx.stroke();
+
+    ctx.shadowBlur = 0;
+
+    /* Letzter Punkt */
+
+    const last =
+        points[
+            points.length - 1
+        ];
+
+    ctx.fillStyle =
+        lineColor;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        last.x,
+        last.y,
+        mobile ? 4 : 5,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+    /* Zeitachse */
+
+    ctx.fillStyle =
+        "#cbd5e3";
+
+    ctx.font =
+        mobile
+            ? "9px Arial"
+            : "11px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    const dateCount =
+        Math.min(
+            6,
+            data.length
+        );
+
+    for (
+        let i = 0;
+        i < dateCount;
+        i++
+    ) {
+
+        const index =
+            dateCount === 1
+                ? 0
+                : Math.floor(
+                    i *
+                    (data.length - 1) /
+                    (dateCount - 1)
+                );
+
+        const point =
+            points[index];
+
+        const date =
+            new Date(
+                data[index].time
+            );
+
+        let text;
+
+        if (
+            selectedPeriod === "1h" ||
+            selectedPeriod === "1d" ||
+            selectedPeriod === "1w"
+        ) {
+
+            text =
+                date.toLocaleTimeString(
+                    "de-DE",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+        } else {
+
+            text =
+                date.toLocaleDateString(
+                    "de-DE",
+                    {
+                        day: "2-digit",
+                        month: "2-digit"
+                    }
+                );
+
+        }
+
+        ctx.fillText(
+            text,
+            point.x,
+            height - 12
+        );
+
+    }
+
+}
+
+/* =========================================================
+   HOVER / TOUCH
+========================================================= */
+
+function showTooltipAt(
+    clientX,
+    clientY
+) {
+
+    if (
+        !currentChartData.length ||
+        !chartGeometry
+    ) {
+
+        return;
+
+    }
+
+    const canvas =
+        document.getElementById(
+            "chartCanvas"
+        );
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+    const x =
+        clientX -
+        rect.left;
+
+    const y =
+        clientY -
+        rect.top;
+
+    const geometry =
+        chartGeometry;
+
+    if (
+        x < geometry.left ||
+        x >
+            geometry.width -
+            geometry.right ||
+        y < geometry.top ||
+        y >
+            geometry.height -
+            geometry.bottom
+    ) {
+
+        hideTooltip();
+
+        return;
+
+    }
+
+    const relative =
+        (
+            x -
+            geometry.left
+        ) /
+        geometry.chartWidth;
+
+    let index =
+        Math.round(
+            relative *
+            (
+                currentChartData.length - 1
+            )
+        );
+
+    index =
+        Math.max(
+            0,
+            Math.min(
+                currentChartData.length - 1,
+                index
+            )
+        );
+
+    const candle =
+        currentChartData[index];
+
+    const point =
+        geometry.points[index];
+
+    if (!candle || !point) {
+        return;
+    }
+
+    drawChart(
+        currentChartData
+    );
+
+    const ctx =
+        canvas.getContext("2d");
+
+    const dpr =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+    /* Cursor-Linie */
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        point.x,
+        geometry.top
+    );
+
+    ctx.lineTo(
+        point.x,
+        geometry.height -
+        geometry.bottom
+    );
+
+    ctx.strokeStyle =
+        "rgba(210,220,235,.48)";
+
+    ctx.lineWidth = 1;
+
+    ctx.setLineDash([4,4]);
+
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+    /* Punkt */
+
+    const rising =
+        currentChartData[
+            currentChartData.length - 1
+        ].close >=
+        currentChartData[0].close;
+
+    const color =
+        rising
+            ? "#42df78"
+            : "#ff5d6c";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        point.x,
+        point.y,
+        6,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fillStyle =
+        color;
+
+    ctx.shadowColor =
+        color;
+
+    ctx.shadowBlur = 12;
+
+    ctx.fill();
+
+    ctx.shadowBlur = 0;
+
+    /* Tooltip */
+
+    const tooltip =
+        document.getElementById(
+            "chartTooltip"
+        );
+
+    document.getElementById(
+        "tooltipDate"
+    ).textContent =
+        formatTooltipDate(
+            new Date(
+                candle.time
+            )
+        );
+
+    document.getElementById(
+        "tooltipPriceText"
+    ).textContent =
+        formatCoinPrice(
+            selectedCoin,
+            candle.close
+        );
+
+    tooltip.style.display =
+        "block";
+
+    positionTooltip(
+        point.x,
+        point.y
+    );
+
+}
+
+/* =========================================================
+   TOOLTIP DATUM
+========================================================= */
+
+function formatTooltipDate(date) {
+
+    return date.toLocaleString(
+        "de-DE",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+/* =========================================================
+   TOOLTIP POSITION
+========================================================= */
+
+function positionTooltip(
+    x,
+    y
+) {
+
+    const tooltip =
+        document.getElementById(
+            "chartTooltip"
+        );
+
+    const container =
+        document.getElementById(
+            "chartContainer"
+        );
+
+    const tooltipWidth =
+        tooltip.offsetWidth;
+
+    const tooltipHeight =
+        tooltip.offsetHeight;
+
+    const containerWidth =
+        container.clientWidth;
+
+    const containerHeight =
+        container.clientHeight;
+
+    let left =
+        x + 14;
+
+    let top =
+        y - tooltipHeight - 12;
+
+    if (
+        left + tooltipWidth >
+        containerWidth - 8
+    ) {
+
+        left =
+            x -
+            tooltipWidth -
+            14;
+
+    }
+
+    if (
+        top < 8
+    ) {
+
+        top =
+            y + 14;
+
+    }
+
+    left =
+        Math.max(
+            8,
+            Math.min(
+                left,
+                containerWidth -
+                tooltipWidth -
+                8
+            )
+        );
+
+    top =
+        Math.max(
+            8,
+            Math.min(
+                top,
+                containerHeight -
+                tooltipHeight -
+                8
+            )
+        );
+
+    tooltip.style.left =
+        left + "px";
+
+    tooltip.style.top =
+        top + "px";
+
+}
+
+/* =========================================================
+   TOOLTIP AUSBLENDEN
+========================================================= */
+
+function hideTooltip() {
+
+    document.getElementById(
+        "chartTooltip"
+    ).style.display =
+        "none";
+
+}
+
+/* =========================================================
+   MAUS
+========================================================= */
+
+chartCanvas.addEventListener(
+    "mousemove",
+    event => {
+
+        showTooltipAt(
+            event.clientX,
+            event.clientY
+        );
+
+    }
+);
+
+chartCanvas.addEventListener(
+    "mouseleave",
+    () => {
+
+        hideTooltip();
+
+        if (
+            currentChartData.length
+        ) {
+
+            drawChart(
+                currentChartData
+            );
+
+        }
+
+    }
+);
+
+/* =========================================================
+   TOUCH
+========================================================= */
+
+chartCanvas.addEventListener(
+    "touchstart",
+    event => {
+
+        event.preventDefault();
+
+        if (event.touches.length) {
+
+            const touch =
+                event.touches[0];
+
+            showTooltipAt(
+                touch.clientX,
+                touch.clientY
+            );
+
+        }
+
+    },
+    {
+        passive: false
+    }
+);
+
+chartCanvas.addEventListener(
+    "touchmove",
+    event => {
+
+        event.preventDefault();
+
+        if (event.touches.length) {
+
+            const touch =
+                event.touches[0];
+
+            showTooltipAt(
+                touch.clientX,
+                touch.clientY
+            );
+
+        }
+
+    },
+    {
+        passive: false
+    }
+);
+
+chartCanvas.addEventListener(
+    "touchend",
+    () => {
+
+        setTimeout(
+            hideTooltip,
+            1800
+        );
+
+    }
+);
+
+/* =========================================================
+   FEHLER
+========================================================= */
+
+function drawError() {
+
+    const canvas =
+        document.getElementById(
+            "chartCanvas"
+        );
+
+    const ctx =
+        canvas.getContext("2d");
+
+    const width =
+        canvas.clientWidth;
+
+    const height =
+        canvas.clientHeight;
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+    ctx.fillStyle =
+        "#ff6875";
+
+    ctx.font =
+        "13px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.fillText(
+        "Kursdaten konnten nicht geladen werden.",
+        width / 2,
+        height / 2
+    );
+
+}
+
+/* =========================================================
+   COIN-KARTE KLICK
+========================================================= */
+
+document
+    .querySelectorAll(".coin-card")
+    .forEach(card => {
+
+        card.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target.closest(".change")
+                ) {
+
+                    return;
+
+                }
+
+                openChart(
+                    card.dataset.coin,
+                    "1d"
+                );
+
+            }
+        );
+
+    });
+
+/* =========================================================
+   ZEITRAUM IN ÜBERSICHT
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".coin-card .change"
+    )
+    .forEach(change => {
+
+        change.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                const card =
+                    change.closest(
+                        ".coin-card"
+                    );
+
+                openChart(
+                    card.dataset.coin,
+                    change.dataset.period
+                );
+
+            }
+        );
+
+    });
+
+/* =========================================================
+   ZEITRAUM IM CHART
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".period-button"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                selectedPeriod =
+                    button.dataset.period;
+
+                updatePeriodButtons();
+
+                loadChart();
+
+            }
+        );
+
+    });
+
+/* =========================================================
+   HIGH / LOW RES
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".resolution-button"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const newResolution =
+                    button.dataset.resolution;
+
+                if (
+                    newResolution ===
+                    resolution
+                ) {
+
+                    return;
+
+                }
+
+                resolution =
+                    newResolution;
+
+                updateResolutionButtons();
+
+                loadChart();
+
+            }
+        );
+
+    });
+
+/* =========================================================
+   SCHLIESSEN
+========================================================= */
+
+document
+    .getElementById(
+        "closeChart"
+    )
+    .addEventListener(
+        "click",
+        closeChart
+    );
+
+document
+    .getElementById(
+        "chartOverlay"
+    )
+    .addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target.id ===
+                "chartOverlay"
+            ) {
+
+                closeChart();
+
+            }
+
+        }
+    );
+
+/* =========================================================
+   ESC
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeChart();
+
+        }
+
+    }
+);
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+let resizeTimer;
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        clearTimeout(
+            resizeTimer
+        );
+
+        resizeTimer =
+            setTimeout(
+                () => {
+
+                    const overlay =
+                        document.getElementById(
+                            "chartOverlay"
+                        );
+
+                    if (
+                        overlay.classList.contains(
+                            "visible"
+                        ) &&
+                        currentChartData.length
+                    ) {
+
+                        drawChart(
+                            currentChartData
+                        );
+
+                    }
+
+                },
+                150
+            );
+
+    }
+);
+
+/* =========================================================
+   START
+========================================================= */
+
+loadAll();
+
+/*
+    Übersicht alle 30 Sekunden
+    aktualisieren.
+*/
+
+setInterval(
+    loadAll,
+    30000
+);
+
+</script>
+
+</body>
+</html>
