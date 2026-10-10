@@ -1535,7 +1535,7 @@ body {
     }
 }
 
-/* V0.9: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
+/* V1.0: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
 html, body {
     background-color: #070b13 !important;
     background-image: radial-gradient(circle at 50% -10%, #263a5b 0%, #101a2b 38%, #070b13 100%) !important;
@@ -1544,7 +1544,7 @@ html, body {
     color-scheme: dark;
 }
 
-/* V0.9: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
+/* V1.0: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
 .change-amount {
     display: block;
     margin-top: 3px;
@@ -1581,7 +1581,7 @@ html, body {
 
 
 
-/* V0.9: Im Querformat die kompakte iPhone-Übersicht beibehalten.
+/* V1.0: Im Querformat die kompakte iPhone-Übersicht beibehalten.
    Safari/iOS-Web-Apps lassen sich per Webseite nicht zuverlässig auf Hochformat sperren. */
 @media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
     html, body {
@@ -2041,7 +2041,7 @@ html, body {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V0.9</span>
+        <span class="version">V1.0</span>
     </div>
 
 </div>
@@ -4464,3 +4464,59 @@ setInterval(
 
 </body>
 </html>
+
+
+<!-- V1.0: Einheitlicher Hintergrund bis in den iPhone-Statusleisten-/Notchbereich.
+     Einfarbiger Hintergrund verhindert den sichtbaren Übergang des Verlaufs ins Schwarz. -->
+<style>
+html, body {
+    background: #101a2b !important;
+    background-image: none !important;
+    background-color: #101a2b !important;
+}
+@media (max-width: 600px) {
+    html, body {
+        min-height: 100%;
+        overscroll-behavior-y: none;
+    }
+}
+</style>
+
+<!-- V1.0: Chart-Zeiträume im Querformat kompakt in einer einzigen Zeile. -->
+<style>
+@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+    #chartOverlay.visible .chart-window {
+        width: 100vw !important;
+        max-width: none !important;
+        height: 100dvh !important;
+        max-height: none !important;
+        border-radius: 0 !important;
+    }
+    .chart-controls {
+        display: block !important;
+        padding: 5px 8px 0 !important;
+        margin: 0 !important;
+    }
+    .periods {
+        display: grid !important;
+        grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+        gap: 4px !important;
+        width: 100% !important;
+    }
+    .period-button {
+        min-width: 0 !important;
+        width: 100% !important;
+        height: 28px !important;
+        min-height: 28px !important;
+        padding: 3px 1px !important;
+        font-size: 9px !important;
+        line-height: 1 !important;
+        letter-spacing: -0.25px !important;
+        white-space: nowrap !important;
+        border-radius: 5px !important;
+    }
+    .chart-container {
+        min-height: 0 !important;
+    }
+}
+</style>
