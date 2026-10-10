@@ -1535,7 +1535,7 @@ body {
     }
 }
 
-/* V1.0: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
+/* V1.1: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
 html, body {
     background-color: #070b13 !important;
     background-image: radial-gradient(circle at 50% -10%, #263a5b 0%, #101a2b 38%, #070b13 100%) !important;
@@ -1544,7 +1544,7 @@ html, body {
     color-scheme: dark;
 }
 
-/* V1.0: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
+/* V1.1: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
 .change-amount {
     display: block;
     margin-top: 3px;
@@ -1581,7 +1581,7 @@ html, body {
 
 
 
-/* V1.0: Im Querformat die kompakte iPhone-Übersicht beibehalten.
+/* V1.1: Im Querformat die kompakte iPhone-Übersicht beibehalten.
    Safari/iOS-Web-Apps lassen sich per Webseite nicht zuverlässig auf Hochformat sperren. */
 @media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
     html, body {
@@ -2041,7 +2041,7 @@ html, body {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V1.0</span>
+        <span class="version">V1.1</span>
     </div>
 
 </div>
@@ -4466,7 +4466,7 @@ setInterval(
 </html>
 
 
-<!-- V1.0: Einheitlicher Hintergrund bis in den iPhone-Statusleisten-/Notchbereich.
+<!-- V1.1: Einheitlicher Hintergrund bis in den iPhone-Statusleisten-/Notchbereich.
      Einfarbiger Hintergrund verhindert den sichtbaren Übergang des Verlaufs ins Schwarz. -->
 <style>
 html, body {
@@ -4482,7 +4482,7 @@ html, body {
 }
 </style>
 
-<!-- V1.0: Chart-Zeiträume im Querformat kompakt in einer einzigen Zeile. -->
+<!-- V1.1: Chart-Zeiträume im Querformat kompakt in einer einzigen Zeile. -->
 <style>
 @media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
     #chartOverlay.visible .chart-window {
@@ -4517,6 +4517,33 @@ html, body {
     }
     .chart-container {
         min-height: 0 !important;
+    }
+}
+</style>
+
+
+<!-- V1.1: Oberhalb der Notch eine durchgehend einfarbige Fläche; der Verlauf beginnt darunter. -->
+<style>
+html {
+    background: #101a2b !important;
+    background-color: #101a2b !important;
+}
+body {
+    background-color: #101a2b !important;
+    background-image:
+      linear-gradient(
+        to bottom,
+        #101a2b 0,
+        #101a2b calc(env(safe-area-inset-top, 0px) + 10px),
+        rgba(16, 26, 43, 0) calc(env(safe-area-inset-top, 0px) + 11px)
+      ),
+      radial-gradient(circle at 50% -10%, #263a5b 0%, #101a2b 38%, #070b13 100%) !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important;
+}
+@media (max-width: 600px) {
+    body {
+        padding-top: calc(env(safe-area-inset-top, 0px) + 4px) !important;
     }
 }
 </style>
