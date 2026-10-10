@@ -1548,6 +1548,42 @@ html {
         background-image: radial-gradient(circle at 50% -10%, #263a5b 0%, #101a2b 38%, #070b13 100%);
     }
 }
+
+/* V0.8: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
+.change-amount {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    line-height: 1.1;
+    white-space: nowrap;
+    font-weight: 500;
+}
+@media (max-width: 600px) {
+    body {
+        padding-top: calc(env(safe-area-inset-top) + 4px) !important;
+        padding-left: max(12px, env(safe-area-inset-left)) !important;
+        padding-right: max(12px, env(safe-area-inset-right)) !important;
+        padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    }
+    .container { padding-top: 0 !important; }
+    .footer { padding-left: 12px !important; padding-right: 16px !important; }
+    .change { min-height: 62px !important; padding: 6px 1px !important; }
+    .change-value { font-size: 11px !important; }
+    .change-amount { font-size: 9px !important; letter-spacing: -0.2px; }
+    .chart-controls { gap: 6px !important; }
+    .periods { gap: 4px !important; }
+    .period-button, .resolution-button {
+        height: 34px !important;
+        min-height: 34px !important;
+        padding: 5px 4px !important;
+        font-size: 10px !important;
+        line-height: 1.1 !important;
+        border-radius: 6px !important;
+    }
+    .resolution-switch { padding: 2px !important; }
+    .resolution-button { padding-left: 6px !important; padding-right: 6px !important; }
+}
+
 </style>
 </head>
 
@@ -1623,26 +1659,31 @@ html {
                 <div class="change" data-period="1h">
                     <div class="change-label">1 Stunde</div>
                     <div id="BTC-1h" class="change-value neutral">…</div>
+                    <div id="BTC-1h-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1d">
-                    <div class="change-label">24 Std.</div>
+                    <div class="change-label">1 Tag</div>
                     <div id="BTC-24h" class="change-value neutral">…</div>
+                    <div id="BTC-24h-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1w">
                     <div class="change-label">1 Woche</div>
                     <div id="BTC-7d" class="change-value neutral">…</div>
+                    <div id="BTC-7d-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1m">
                     <div class="change-label">1 Monat</div>
                     <div id="BTC-30d" class="change-value neutral">…</div>
+                    <div id="BTC-30d-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1y">
                     <div class="change-label">1 Jahr</div>
                     <div id="BTC-365d" class="change-value neutral">…</div>
+                    <div id="BTC-365d-amount" class="change-amount neutral">…</div>
                 </div>
 
             </div>
@@ -1694,26 +1735,31 @@ html {
                 <div class="change" data-period="1h">
                     <div class="change-label">1 Stunde</div>
                     <div id="ETH-1h" class="change-value neutral">…</div>
+                    <div id="ETH-1h-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1d">
-                    <div class="change-label">24 Std.</div>
+                    <div class="change-label">1 Tag</div>
                     <div id="ETH-24h" class="change-value neutral">…</div>
+                    <div id="ETH-24h-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1w">
                     <div class="change-label">1 Woche</div>
                     <div id="ETH-7d" class="change-value neutral">…</div>
+                    <div id="ETH-7d-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1m">
                     <div class="change-label">1 Monat</div>
                     <div id="ETH-30d" class="change-value neutral">…</div>
+                    <div id="ETH-30d-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1y">
                     <div class="change-label">1 Jahr</div>
                     <div id="ETH-365d" class="change-value neutral">…</div>
+                    <div id="ETH-365d-amount" class="change-amount neutral">…</div>
                 </div>
 
             </div>
@@ -1765,26 +1811,31 @@ html {
                 <div class="change" data-period="1h">
                     <div class="change-label">1 Stunde</div>
                     <div id="ADA-1h" class="change-value neutral">…</div>
+                    <div id="ADA-1h-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1d">
-                    <div class="change-label">24 Std.</div>
+                    <div class="change-label">1 Tag</div>
                     <div id="ADA-24h" class="change-value neutral">…</div>
+                    <div id="ADA-24h-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1w">
                     <div class="change-label">1 Woche</div>
                     <div id="ADA-7d" class="change-value neutral">…</div>
+                    <div id="ADA-7d-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1m">
                     <div class="change-label">1 Monat</div>
                     <div id="ADA-30d" class="change-value neutral">…</div>
+                    <div id="ADA-30d-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1y">
                     <div class="change-label">1 Jahr</div>
                     <div id="ADA-365d" class="change-value neutral">…</div>
+                    <div id="ADA-365d-amount" class="change-amount neutral">…</div>
                 </div>
 
             </div>
@@ -1836,26 +1887,31 @@ html {
                 <div class="change" data-period="1h">
                     <div class="change-label">1 Stunde</div>
                     <div id="SOL-1h" class="change-value neutral">…</div>
+                    <div id="SOL-1h-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1d">
-                    <div class="change-label">24 Std.</div>
+                    <div class="change-label">1 Tag</div>
                     <div id="SOL-24h" class="change-value neutral">…</div>
+                    <div id="SOL-24h-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1w">
                     <div class="change-label">1 Woche</div>
                     <div id="SOL-7d" class="change-value neutral">…</div>
+                    <div id="SOL-7d-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1m">
                     <div class="change-label">1 Monat</div>
                     <div id="SOL-30d" class="change-value neutral">…</div>
+                    <div id="SOL-30d-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1y">
                     <div class="change-label">1 Jahr</div>
                     <div id="SOL-365d" class="change-value neutral">…</div>
+                    <div id="SOL-365d-amount" class="change-amount neutral">…</div>
                 </div>
 
             </div>
@@ -1907,26 +1963,31 @@ html {
                 <div class="change" data-period="1h">
                     <div class="change-label">1 Stunde</div>
                     <div id="ETHBTC-1h" class="change-value neutral">…</div>
+                    <div id="ETHBTC-1h-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1d">
-                    <div class="change-label">24 Std.</div>
+                    <div class="change-label">1 Tag</div>
                     <div id="ETHBTC-24h" class="change-value neutral">…</div>
+                    <div id="ETHBTC-24h-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1w">
                     <div class="change-label">1 Woche</div>
                     <div id="ETHBTC-7d" class="change-value neutral">…</div>
+                    <div id="ETHBTC-7d-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1m">
                     <div class="change-label">1 Monat</div>
                     <div id="ETHBTC-30d" class="change-value neutral">…</div>
+                    <div id="ETHBTC-30d-amount" class="change-amount neutral">…</div>
                 </div>
 
                 <div class="change" data-period="1y">
                     <div class="change-label">1 Jahr</div>
                     <div id="ETHBTC-365d" class="change-value neutral">…</div>
+                    <div id="ETHBTC-365d-amount" class="change-amount neutral">…</div>
                 </div>
 
             </div>
@@ -1937,7 +1998,7 @@ html {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V0.6</span>
+        <span class="version">V0.8</span>
     </div>
 
 </div>
@@ -2010,25 +2071,17 @@ html {
                     1 Jahr
                 </button>
 
-            </div>
-
-            <div class="resolution-switch">
-
-                <button
-                    id="highResButton"
-                    class="resolution-button active"
-                    data-resolution="high">
-                    High-Res
+                <button class="period-button" data-period="3y">
+                    3 Jahre
                 </button>
 
-                <button
-                    id="lowResButton"
-                    class="resolution-button"
-                    data-resolution="low">
-                    Low-Res
+                <button class="period-button" data-period="5y">
+                    5 Jahre
                 </button>
 
             </div>
+
+
 
         </div>
 
@@ -2151,7 +2204,7 @@ let selectedCoin = "BTC";
 
 let selectedPeriod = "1d";
 
-let resolution = "high";
+const resolution = "high";
 
 let currentChartData = [];
 
@@ -2273,6 +2326,12 @@ function getHistoryConfig(period) {
                     limit: 1460
                 };
 
+            case "3y":
+                return { interval: "1d", limit: 1095 };
+
+            case "5y":
+                return { interval: "1d", limit: 1825 };
+
         }
 
     } else {
@@ -2308,6 +2367,12 @@ function getHistoryConfig(period) {
                     interval: "1d",
                     limit: 365
                 };
+
+            case "3y":
+                return { interval: "1w", limit: 157 };
+
+            case "5y":
+                return { interval: "1w", limit: 261 };
 
         }
 
@@ -2731,6 +2796,37 @@ function changeClass(value) {
    ÄNDERUNG SETZEN
 ========================================================= */
 
+function formatAbsoluteChange(coin, amount) {
+    if (!Number.isFinite(amount)) return "—";
+    const sign = amount >= 0 ? "+" : "−";
+    const abs = Math.abs(amount);
+    if (COINS[coin] && COINS[coin].type === "btc") {
+        return sign + abs.toLocaleString("de-DE", { minimumFractionDigits: 4, maximumFractionDigits: 6 }) + " BTC";
+    }
+    return sign + abs.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+}
+
+function setAbsoluteChange(coin, period, current, history, hours) {
+    const element = document.getElementById(coin + "-" + period + "-amount");
+    if (!element) return;
+    const historic = getHistoricalClose(history, hours);
+    const amount = Number.isFinite(historic) ? current - historic : null;
+    element.textContent = formatAbsoluteChange(coin, amount);
+    element.className = "change-amount " + (Number.isFinite(amount) ? changeClass(amount) : "neutral");
+}
+
+function getHistoricalClose(history, hours) {
+    if (!history || !history.length) return null;
+    const target = Date.now() - hours * 60 * 60 * 1000;
+    let closest = history[0];
+    let difference = Math.abs(closest.time - target);
+    for (const candle of history) {
+        const distance = Math.abs(candle.time - target);
+        if (distance < difference) { difference = distance; closest = candle; }
+    }
+    return closest && closest.close > 0 ? closest.close : null;
+}
+
 function setChange(
     coin,
     period,
@@ -2810,51 +2906,20 @@ async function loadCoin(coin) {
                 price
             );
 
-        setChange(
-            coin,
-            "1h",
-            calculateChange(
-                history1h,
-                price,
-                1
-            )
-        );
+        setChange(coin, "1h", calculateChange(history1h, price, 1));
+        setAbsoluteChange(coin, "1h", price, history1h, 1);
 
-        setChange(
-            coin,
-            "24h",
-            change24
-        );
+        setChange(coin, "24h", change24);
+        setAbsoluteChange(coin, "24h", price, history1w, 24);
 
-        setChange(
-            coin,
-            "7d",
-            calculateChange(
-                history1w,
-                price,
-                7 * 24
-            )
-        );
+        setChange(coin, "7d", calculateChange(history1w, price, 7 * 24));
+        setAbsoluteChange(coin, "7d", price, history1w, 7 * 24);
 
-        setChange(
-            coin,
-            "30d",
-            calculateChange(
-                history1m,
-                price,
-                30 * 24
-            )
-        );
+        setChange(coin, "30d", calculateChange(history1m, price, 30 * 24));
+        setAbsoluteChange(coin, "30d", price, history1m, 30 * 24);
 
-        setChange(
-            coin,
-            "365d",
-            calculateChange(
-                history1y,
-                price,
-                365 * 24
-            )
-        );
+        setChange(coin, "365d", calculateChange(history1y, price, 365 * 24));
+        setAbsoluteChange(coin, "365d", price, history1y, 365 * 24);
 
     }
 
@@ -4233,44 +4298,6 @@ document
                     button.dataset.period;
 
                 updatePeriodButtons();
-
-                loadChart();
-
-            }
-        );
-
-    });
-
-/* =========================================================
-   HIGH / LOW RES
-========================================================= */
-
-document
-    .querySelectorAll(
-        ".resolution-button"
-    )
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const newResolution =
-                    button.dataset.resolution;
-
-                if (
-                    newResolution ===
-                    resolution
-                ) {
-
-                    return;
-
-                }
-
-                resolution =
-                    newResolution;
-
-                updateResolutionButtons();
 
                 loadChart();
 
