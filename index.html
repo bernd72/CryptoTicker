@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#070b13">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1535,21 +1535,16 @@ body {
     }
 }
 
-/* V0.6: Hintergrund für iOS-Safe-Area/Statusleiste schwarz halten. */
-html {
-    background: #000000 !important;
+/* V0.9: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
+html, body {
+    background-color: #070b13 !important;
+    background-image: radial-gradient(circle at 50% -10%, #263a5b 0%, #101a2b 38%, #070b13 100%) !important;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color-scheme: dark;
 }
-@media (max-width: 600px) {
-    html, body {
-        background-color: #000000;
-    }
-    body {
-        background-image: radial-gradient(circle at 50% -10%, #263a5b 0%, #101a2b 38%, #070b13 100%);
-    }
-}
 
-/* V0.8: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
+/* V0.9: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
 .change-amount {
     display: block;
     margin-top: 3px;
@@ -1582,6 +1577,54 @@ html {
     }
     .resolution-switch { padding: 2px !important; }
     .resolution-button { padding-left: 6px !important; padding-right: 6px !important; }
+}
+
+
+
+/* V0.9: Im Querformat die kompakte iPhone-Übersicht beibehalten.
+   Safari/iOS-Web-Apps lassen sich per Webseite nicht zuverlässig auf Hochformat sperren. */
+@media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
+    html, body {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+        background-color: #070b13 !important;
+        background-image: radial-gradient(circle at 50% -10%, #263a5b 0%, #101a2b 38%, #070b13 100%) !important;
+    }
+    body {
+        padding: max(4px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(4px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)) !important;
+    }
+    .container { width: 100%; max-width: none; }
+    .header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin: 0 2px 6px;
+    }
+    .title h1 { font-size: 19px; line-height: 1.1; }
+    .title p { margin-top: 2px; font-size: 9px; }
+    .status { white-space: nowrap; font-size: 9px; }
+    .coin-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        min-height: 0;
+        margin-bottom: 4px;
+        border-radius: 9px;
+    }
+    .coin-info { min-width: 0; min-height: 0; padding: 5px 8px; border: 0; }
+    .coin-icon { width: 29px; height: 29px; margin-right: 7px; font-size: 15px; }
+    .coin-name { font-size: 12px; line-height: 1.1; }
+    .coin-symbol { margin-top: 1px; font-size: 8px; }
+    .price-area { min-width: 0; padding: 4px 8px; text-align: right; }
+    .price { font-size: 15px; line-height: 1.1; white-space: nowrap; }
+    .changes { display: flex; justify-content: flex-end; gap: 3px; margin-top: 3px; padding: 0; overflow: visible; }
+    .change { flex: 0 0 auto; min-width: 0; padding: 2px 3px; border-radius: 4px; }
+    .change-label { font-size: 7px; line-height: 1.05; }
+    .change-value { margin-top: 1px; font-size: 8px; line-height: 1.05; }
+    .change-amount { margin-top: 1px; font-size: 7px; line-height: 1.05; }
+    .footer { margin-top: 3px; padding: 0 12px 0 16px; font-size: 8px; }
 }
 
 </style>
@@ -1998,7 +2041,7 @@ html {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V0.8</span>
+        <span class="version">V0.9</span>
     </div>
 
 </div>
