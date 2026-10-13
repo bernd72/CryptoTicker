@@ -1535,7 +1535,7 @@ body {
     }
 }
 
-/* V2.1: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
+/* V2.2: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
 html, body {
     background-color: #101a2b !important;
     background-image: none !important;
@@ -1544,7 +1544,7 @@ html, body {
     color-scheme: dark;
 }
 
-/* V2.1: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
+/* V2.2: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
 .change-amount {
     display: block;
     margin-top: 3px;
@@ -1581,7 +1581,7 @@ html, body {
 
 
 
-/* V2.1: Im Querformat die kompakte iPhone-Übersicht beibehalten.
+/* V2.2: Im Querformat die kompakte iPhone-Übersicht beibehalten.
    Safari/iOS-Web-Apps lassen sich per Webseite nicht zuverlässig auf Hochformat sperren. */
 @media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
     html, body {
@@ -1629,7 +1629,7 @@ html, body {
 
 </style>
 
-<!-- V2.1: separate Regeln für installierte iPhone-Web-App und iPad-Querformat -->
+<!-- V2.2: separate Regeln für installierte iPhone-Web-App und iPad-Querformat -->
 <style>
 /* iPhone: nur Home-Bildschirm-Web-App; Safari bleibt bei den bisherigen Regeln. */
 @media (max-width: 600px) and (display-mode: standalone) {
@@ -1696,7 +1696,7 @@ html, body {
 }
 </style>
 
-<!-- V2.1: iPhone-Home-Screen-Ansicht und einspaltige iPad-Querformat-Übersicht -->
+<!-- V2.2: iPhone-Home-Screen-Ansicht und einspaltige iPad-Querformat-Übersicht -->
 <style>
 @media (max-width: 600px) and (display-mode: standalone) and (orientation: portrait) {
   html { height: 100%; }
@@ -1751,7 +1751,7 @@ html, body {
 }
 </style>
 
-<!-- V2.1: iPhone installed web app compact cards; must be inside HEAD -->
+<!-- V2.2: iPhone installed web app compact cards; must be inside HEAD -->
 <style>
 @media (max-width: 600px) and (orientation: portrait) and (display-mode: standalone) {
   html, body { height: auto !important; min-height: 0 !important; }
@@ -1786,7 +1786,7 @@ html, body {
 </style>
 
 
-<!-- V2.1: Home-Screen-Erkennung unabhängig von CSS display-mode. -->
+<!-- V2.2: Home-Screen-Erkennung unabhängig von CSS display-mode. -->
 <script>
 (function () {
   var standalone = window.navigator.standalone === true ||
@@ -1875,7 +1875,7 @@ html, body {
 </style>
 
 
-<!-- V2.1: iOS-Homebildschirm: klare Rasterstruktur und volle nutzbare Höhe -->
+<!-- V2.2: iOS-Homebildschirm: klare Rasterstruktur und volle nutzbare Höhe -->
 <style>
 /* Kein radialer Verlauf im Standalone-Modus, auch nicht im Chart. */
 @media (display-mode: standalone) {
@@ -1986,7 +1986,7 @@ html.ios-home-app #chartOverlay {
 </style>
 
 
-<!-- V2.1: Einheitlicher Seitenhintergrund ohne radialen Verlauf. -->
+<!-- V2.2: Einheitlicher Seitenhintergrund ohne radialen Verlauf. -->
 <style>
 html, body, body::before, html::before {
   background-color: #101a2b !important;
@@ -1998,7 +1998,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
   background-image: none !important;
 }
 </style>
-<!-- V2.1: iOS-Scroll-Randeffekt nur auf der installierten iPhone-Uebersicht vermeiden.
+<!-- V2.2: iOS-Scroll-Randeffekt nur auf der installierten iPhone-Uebersicht vermeiden.
      Die Diagrammansicht und Safari bleiben unveraendert. -->
 <style>
 @media (max-width: 600px) and (orientation: portrait) {
@@ -2022,6 +2022,41 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
   html.ios-home-app body > .container {
     height: 100% !important;
     overflow: hidden !important;
+  }
+}
+</style>
+
+<!-- V2.2: iPad-PWA – denselben iOS-Rand-/Scroll-Effekt wie beim iPhone vermeiden.
+     Nur installierte Web-Apps auf Touch-Tablets. Keine Änderungen an Karten, Charts oder Safari. -->
+<style>
+@media (min-width: 700px) and (pointer: coarse) {
+  html.ios-home-app {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    overscroll-behavior: none;
+    background-color: #101a2b !important;
+    background-image: none !important;
+  }
+  html.ios-home-app body {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    overscroll-behavior: none;
+    background-color: #101a2b !important;
+    background-image: none !important;
+  }
+  html.ios-home-app body > .container {
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: none;
+    background-color: transparent !important;
+    background-image: none !important;
   }
 }
 </style>
@@ -2438,7 +2473,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V2.1</span>
+        <span class="version">V2.2</span>
     </div>
 
 </div>
