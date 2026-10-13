@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#101a2b">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Crypto Dashboard</title>
 
@@ -1535,7 +1535,7 @@ body {
     }
 }
 
-/* V1.9: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
+/* V2.0: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
 html, body {
     background-color: #101a2b !important;
     background-image: none !important;
@@ -1544,7 +1544,7 @@ html, body {
     color-scheme: dark;
 }
 
-/* V1.9: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
+/* V2.0: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
 .change-amount {
     display: block;
     margin-top: 3px;
@@ -1581,7 +1581,7 @@ html, body {
 
 
 
-/* V1.9: Im Querformat die kompakte iPhone-Übersicht beibehalten.
+/* V2.0: Im Querformat die kompakte iPhone-Übersicht beibehalten.
    Safari/iOS-Web-Apps lassen sich per Webseite nicht zuverlässig auf Hochformat sperren. */
 @media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
     html, body {
@@ -1629,7 +1629,7 @@ html, body {
 
 </style>
 
-<!-- V1.9: separate Regeln für installierte iPhone-Web-App und iPad-Querformat -->
+<!-- V2.0: separate Regeln für installierte iPhone-Web-App und iPad-Querformat -->
 <style>
 /* iPhone: nur Home-Bildschirm-Web-App; Safari bleibt bei den bisherigen Regeln. */
 @media (max-width: 600px) and (display-mode: standalone) {
@@ -1696,7 +1696,7 @@ html, body {
 }
 </style>
 
-<!-- V1.9: iPhone-Home-Screen-Ansicht und einspaltige iPad-Querformat-Übersicht -->
+<!-- V2.0: iPhone-Home-Screen-Ansicht und einspaltige iPad-Querformat-Übersicht -->
 <style>
 @media (max-width: 600px) and (display-mode: standalone) and (orientation: portrait) {
   html { height: 100%; }
@@ -1751,7 +1751,7 @@ html, body {
 }
 </style>
 
-<!-- V1.9: iPhone installed web app compact cards; must be inside HEAD -->
+<!-- V2.0: iPhone installed web app compact cards; must be inside HEAD -->
 <style>
 @media (max-width: 600px) and (orientation: portrait) and (display-mode: standalone) {
   html, body { height: auto !important; min-height: 0 !important; }
@@ -1786,7 +1786,7 @@ html, body {
 </style>
 
 
-<!-- V1.9: Home-Screen-Erkennung unabhängig von CSS display-mode. -->
+<!-- V2.0: Home-Screen-Erkennung unabhängig von CSS display-mode. -->
 <script>
 (function () {
   var standalone = window.navigator.standalone === true ||
@@ -1875,7 +1875,7 @@ html, body {
 </style>
 
 
-<!-- V1.9: iOS-Homebildschirm: klare Rasterstruktur und volle nutzbare Höhe -->
+<!-- V2.0: iOS-Homebildschirm: klare Rasterstruktur und volle nutzbare Höhe -->
 <style>
 /* Kein radialer Verlauf im Standalone-Modus, auch nicht im Chart. */
 @media (display-mode: standalone) {
@@ -1986,7 +1986,7 @@ html.ios-home-app #chartOverlay {
 </style>
 
 
-<!-- V1.9: Einheitlicher Seitenhintergrund ohne radialen Verlauf. -->
+<!-- V2.0: Einheitlicher Seitenhintergrund ohne radialen Verlauf. -->
 <style>
 html, body, body::before, html::before {
   background-color: #101a2b !important;
@@ -2411,7 +2411,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V1.9</span>
+        <span class="version">V2.0</span>
     </div>
 
 </div>
