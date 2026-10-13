@@ -1535,7 +1535,7 @@ body {
     }
 }
 
-/* V1.3: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
+/* V1.4: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
 html, body {
     background-color: #070b13 !important;
     background-image: radial-gradient(circle at 50% -10%, #263a5b 0%, #101a2b 38%, #070b13 100%) !important;
@@ -1544,7 +1544,7 @@ html, body {
     color-scheme: dark;
 }
 
-/* V1.3: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
+/* V1.4: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
 .change-amount {
     display: block;
     margin-top: 3px;
@@ -1581,7 +1581,7 @@ html, body {
 
 
 
-/* V1.3: Im Querformat die kompakte iPhone-Übersicht beibehalten.
+/* V1.4: Im Querformat die kompakte iPhone-Übersicht beibehalten.
    Safari/iOS-Web-Apps lassen sich per Webseite nicht zuverlässig auf Hochformat sperren. */
 @media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
     html, body {
@@ -1627,6 +1627,73 @@ html, body {
     .footer { margin-top: 3px; padding: 0 12px 0 16px; font-size: 8px; }
 }
 
+</style>
+
+<!-- V1.4: separate Regeln für installierte iPhone-Web-App und iPad-Querformat -->
+<style>
+/* iPhone: nur Home-Bildschirm-Web-App; Safari bleibt bei den bisherigen Regeln. */
+@media (max-width: 600px) and (display-mode: standalone) {
+  html { height: 100%; }
+  body {
+    min-height: 100dvh !important;
+    height: auto !important;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 4px) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 5px) !important;
+  }
+  .container {
+    min-height: 0 !important;
+    height: auto !important;
+    display: block !important;
+  }
+  .header { margin-bottom: 5px !important; }
+  .coin-card {
+    min-height: 0 !important;
+    margin-bottom: 5px !important;
+    padding-top: 4px !important;
+    padding-bottom: 5px !important;
+  }
+  .changes { margin-top: 4px !important; }
+  .change { min-height: 43px !important; padding-top: 4px !important; padding-bottom: 4px !important; }
+  .footer { margin-top: 4px !important; }
+  #chartOverlay { padding: 0 !important; }
+  #chartOverlay.visible .chart-window {
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .chart-container { height: min(48dvh, 420px) !important; max-height: 48dvh !important; }
+  #chartCanvas { max-height: none !important; }
+}
+/* iPad im Querformat: zwei Spalten in der Übersicht, ohne Hochformat zu ändern. */
+@media (min-width: 700px) and (orientation: landscape) and (pointer: coarse) {
+  body { padding: max(10px, env(safe-area-inset-top)) 16px max(10px, env(safe-area-inset-bottom)); }
+  .container { max-width: 1300px; }
+  .header { margin-bottom: 10px; }
+  .container { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; align-content: start; }
+  .container > .header, .container > .footer { grid-column: 1 / -1; }
+  .coin-card {
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+    margin-bottom: 9px !important;
+    padding: 9px 12px !important;
+    border-radius: 12px !important;
+  }
+  .coin-info { padding: 0 0 4px !important; border: 0 !important; }
+  .coin-icon { width: 32px !important; height: 32px !important; font-size: 17px !important; margin-right: 9px !important; }
+  .coin-name { font-size: 15px !important; }
+  .coin-symbol { margin-top: 1px !important; font-size: 10px !important; }
+  .price-area { padding: 0 !important; }
+  .price { font-size: 19px !important; }
+  .price-label { display: none !important; }
+  .changes { margin-top: 6px !important; gap: 4px !important; }
+  .change { padding: 5px 3px !important; }
+  .change-label { font-size: 8px !important; }
+  .change-value { font-size: 10px !important; }
+  .change-amount { font-size: 8px !important; }
+  .footer { margin-top: 1px !important; }
+  /* Chart-Zeitraumknöpfe in einer Reihe, Diagramm ansonsten wie bisher. */
+  .chart-controls { display: flex !important; }
+  .periods { display: grid !important; grid-template-columns: repeat(7, minmax(0, 1fr)) !important; gap: 6px !important; }
+  .period-button { padding: 10px 2px !important; white-space: nowrap !important; font-size: 11px !important; }
+}
 </style>
 </head>
 
@@ -2041,7 +2108,7 @@ html, body {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V1.3</span>
+        <span class="version">V1.4</span>
     </div>
 
 </div>
@@ -4466,7 +4533,7 @@ setInterval(
 </html>
 
 
-<!-- V1.3: Einheitlicher Hintergrund bis in den iPhone-Statusleisten-/Notchbereich.
+<!-- V1.4: Einheitlicher Hintergrund bis in den iPhone-Statusleisten-/Notchbereich.
      Einfarbiger Hintergrund verhindert den sichtbaren Übergang des Verlaufs ins Schwarz. -->
 <style>
 html, body {
@@ -4482,7 +4549,7 @@ html, body {
 }
 </style>
 
-<!-- V1.3: Chart-Zeiträume im Querformat kompakt in einer einzigen Zeile. -->
+<!-- V1.4: Chart-Zeiträume im Querformat kompakt in einer einzigen Zeile. -->
 <style>
 @media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
     #chartOverlay.visible .chart-window {
@@ -4522,7 +4589,7 @@ html, body {
 </style>
 
 
-<!-- V1.3: Fixierter Notch-Hintergrund ohne zusätzlichen Layout-Abstand -->
+<!-- V1.4: Fixierter Notch-Hintergrund ohne zusätzlichen Layout-Abstand -->
 <style>
 @media (max-width: 600px) {
   body::before {
@@ -4537,7 +4604,7 @@ html, body {
     z-index: 9999;
   }
 }
-/* V1.3: Kompaktere iPhone-Übersicht */
+/* V1.4: Kompaktere iPhone-Übersicht */
 @media (max-width: 600px) {
   .coin-card { margin-top: 0 !important; margin-bottom: 6px !important; }
   .coin-info { padding-top: 6px !important; padding-bottom: 6px !important; }
@@ -4554,7 +4621,7 @@ html, body {
 </style>
 
 
-<!-- V1.3: Weniger verschenkte Höhe in Übersicht und Chartansicht -->
+<!-- V1.4: Weniger verschenkte Höhe in Übersicht und Chartansicht -->
 <style>
 @media (max-width: 600px) {
   /* Übersicht: Coinname/Symbol und Preis enger zusammenrücken */
