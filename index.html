@@ -1535,7 +1535,7 @@ body {
     }
 }
 
-/* V2.2: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
+/* V2.3: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
 html, body {
     background-color: #101a2b !important;
     background-image: none !important;
@@ -1544,7 +1544,7 @@ html, body {
     color-scheme: dark;
 }
 
-/* V2.2: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
+/* V2.3: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
 .change-amount {
     display: block;
     margin-top: 3px;
@@ -1581,7 +1581,7 @@ html, body {
 
 
 
-/* V2.2: Im Querformat die kompakte iPhone-Übersicht beibehalten.
+/* V2.3: Im Querformat die kompakte iPhone-Übersicht beibehalten.
    Safari/iOS-Web-Apps lassen sich per Webseite nicht zuverlässig auf Hochformat sperren. */
 @media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
     html, body {
@@ -1629,7 +1629,7 @@ html, body {
 
 </style>
 
-<!-- V2.2: separate Regeln für installierte iPhone-Web-App und iPad-Querformat -->
+<!-- V2.3: separate Regeln für installierte iPhone-Web-App und iPad-Querformat -->
 <style>
 /* iPhone: nur Home-Bildschirm-Web-App; Safari bleibt bei den bisherigen Regeln. */
 @media (max-width: 600px) and (display-mode: standalone) {
@@ -1696,7 +1696,7 @@ html, body {
 }
 </style>
 
-<!-- V2.2: iPhone-Home-Screen-Ansicht und einspaltige iPad-Querformat-Übersicht -->
+<!-- V2.3: iPhone-Home-Screen-Ansicht und einspaltige iPad-Querformat-Übersicht -->
 <style>
 @media (max-width: 600px) and (display-mode: standalone) and (orientation: portrait) {
   html { height: 100%; }
@@ -1751,7 +1751,7 @@ html, body {
 }
 </style>
 
-<!-- V2.2: iPhone installed web app compact cards; must be inside HEAD -->
+<!-- V2.3: iPhone installed web app compact cards; must be inside HEAD -->
 <style>
 @media (max-width: 600px) and (orientation: portrait) and (display-mode: standalone) {
   html, body { height: auto !important; min-height: 0 !important; }
@@ -1786,7 +1786,7 @@ html, body {
 </style>
 
 
-<!-- V2.2: Home-Screen-Erkennung unabhängig von CSS display-mode. -->
+<!-- V2.3: Home-Screen-Erkennung unabhängig von CSS display-mode. -->
 <script>
 (function () {
   var standalone = window.navigator.standalone === true ||
@@ -1875,7 +1875,7 @@ html, body {
 </style>
 
 
-<!-- V2.2: iOS-Homebildschirm: klare Rasterstruktur und volle nutzbare Höhe -->
+<!-- V2.3: iOS-Homebildschirm: klare Rasterstruktur und volle nutzbare Höhe -->
 <style>
 /* Kein radialer Verlauf im Standalone-Modus, auch nicht im Chart. */
 @media (display-mode: standalone) {
@@ -1986,7 +1986,7 @@ html.ios-home-app #chartOverlay {
 </style>
 
 
-<!-- V2.2: Einheitlicher Seitenhintergrund ohne radialen Verlauf. -->
+<!-- V2.3: Einheitlicher Seitenhintergrund ohne radialen Verlauf. -->
 <style>
 html, body, body::before, html::before {
   background-color: #101a2b !important;
@@ -1998,7 +1998,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
   background-image: none !important;
 }
 </style>
-<!-- V2.2: iOS-Scroll-Randeffekt nur auf der installierten iPhone-Uebersicht vermeiden.
+<!-- V2.3: iOS-Scroll-Randeffekt nur auf der installierten iPhone-Uebersicht vermeiden.
      Die Diagrammansicht und Safari bleiben unveraendert. -->
 <style>
 @media (max-width: 600px) and (orientation: portrait) {
@@ -2026,7 +2026,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 }
 </style>
 
-<!-- V2.2: iPad-PWA – denselben iOS-Rand-/Scroll-Effekt wie beim iPhone vermeiden.
+<!-- V2.3: iPad-PWA – denselben iOS-Rand-/Scroll-Effekt wie beim iPhone vermeiden.
      Nur installierte Web-Apps auf Touch-Tablets. Keine Änderungen an Karten, Charts oder Safari. -->
 <style>
 @media (min-width: 700px) and (pointer: coarse) {
@@ -2060,6 +2060,44 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
   }
 }
 </style>
+
+<!-- V2.3: Chart-Zeitraeume mit Prozent und absoluten Betraegen -->
+<style>
+#chartOverlay .period-button {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+  min-height: 76px !important;
+  height: auto !important;
+  padding: 9px 3px !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+#chartOverlay .chart-period-label { font-size: 11px; font-weight: 650; }
+#chartOverlay .chart-period-percent { font-size: 12px; font-weight: 700; }
+#chartOverlay .chart-period-amount { font-size: 10px; font-weight: 550; }
+#chartOverlay .chart-period-percent.positive, #chartOverlay .chart-period-amount.positive { color: #54d7a0; }
+#chartOverlay .chart-period-percent.negative, #chartOverlay .chart-period-amount.negative { color: #ff858a; }
+#chartOverlay .chart-period-percent.neutral, #chartOverlay .chart-period-amount.neutral { color: #c9d2df; }
+@media (max-width: 600px) {
+  #chartOverlay .periods { gap: 3px !important; }
+  #chartOverlay .period-button { min-height: 78px !important; padding: 7px 1px !important; gap: 4px !important; }
+  #chartOverlay .chart-period-label { font-size: 9px !important; letter-spacing: -0.25px; }
+  #chartOverlay .chart-period-percent { font-size: 10px !important; }
+  #chartOverlay .chart-period-amount { font-size: 8px !important; letter-spacing: -0.15px; }
+}
+@media (min-width: 700px) {
+  #chartOverlay .period-button { min-height: 84px !important; }
+  #chartOverlay .chart-period-label { font-size: 12px; }
+  #chartOverlay .chart-period-percent { font-size: 13px; }
+  #chartOverlay .chart-period-amount { font-size: 11px; }
+}
+</style>
+
 </head>
 
 <body>
@@ -2473,7 +2511,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V2.2</span>
+        <span class="version">V2.3</span>
     </div>
 
 </div>
@@ -2527,31 +2565,45 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
             <div class="periods">
 
                 <button class="period-button" data-period="1h">
-                    1 Stunde
+                    <span class="chart-period-label">1 Stunde</span>
+                    <span class="chart-period-percent neutral">…</span>
+                    <span class="chart-period-amount neutral">…</span>
                 </button>
 
                 <button class="period-button" data-period="1d">
-                    1 Tag
+                    <span class="chart-period-label">1 Tag</span>
+                    <span class="chart-period-percent neutral">…</span>
+                    <span class="chart-period-amount neutral">…</span>
                 </button>
 
                 <button class="period-button" data-period="1w">
-                    1 Woche
+                    <span class="chart-period-label">1 Woche</span>
+                    <span class="chart-period-percent neutral">…</span>
+                    <span class="chart-period-amount neutral">…</span>
                 </button>
 
                 <button class="period-button" data-period="1m">
-                    1 Monat
+                    <span class="chart-period-label">1 Monat</span>
+                    <span class="chart-period-percent neutral">…</span>
+                    <span class="chart-period-amount neutral">…</span>
                 </button>
 
                 <button class="period-button" data-period="1y">
-                    1 Jahr
+                    <span class="chart-period-label">1 Jahr</span>
+                    <span class="chart-period-percent neutral">…</span>
+                    <span class="chart-period-amount neutral">…</span>
                 </button>
 
                 <button class="period-button" data-period="3y">
-                    3 Jahre
+                    <span class="chart-period-label">3 Jahre</span>
+                    <span class="chart-period-percent neutral">…</span>
+                    <span class="chart-period-amount neutral">…</span>
                 </button>
 
                 <button class="period-button" data-period="5y">
-                    5 Jahre
+                    <span class="chart-period-label">5 Jahre</span>
+                    <span class="chart-period-percent neutral">…</span>
+                    <span class="chart-period-amount neutral">…</span>
                 </button>
 
             </div>
@@ -3396,6 +3448,10 @@ async function loadCoin(coin) {
         setChange(coin, "365d", calculateChange(history1y, price, 365 * 24));
         setAbsoluteChange(coin, "365d", price, history1y, 365 * 24);
 
+        if (document.getElementById('chartOverlay').classList.contains('visible') && selectedCoin === coin) {
+            updateChartOverviewChanges();
+        }
+
     }
 
     catch (error) {
@@ -3465,6 +3521,83 @@ function setStatus(
 
 }
 
+
+/* =========================================================
+   V2.3: Performance direkt in den Chart-Zeitraum-Tasten
+========================================================= */
+const chartOverviewPeriodIds = {
+    "1h": "1h", "1d": "24h", "1w": "7d", "1m": "30d", "1y": "365d"
+};
+const chartLongChangeCache = new Map();
+let chartChangeRequestId = 0;
+
+function setChartButtonValues(period, percent, amount, valueClass = "neutral") {
+    const button = document.querySelector('.period-button[data-period="' + period + '"]');
+    if (!button) return;
+    const p = button.querySelector('.chart-period-percent');
+    const a = button.querySelector('.chart-period-amount');
+    p.textContent = percent;
+    a.textContent = amount;
+    p.className = 'chart-period-percent ' + valueClass;
+    a.className = 'chart-period-amount ' + valueClass;
+}
+
+function updateChartOverviewChanges() {
+    const coin = selectedCoin;
+    for (const [period, sourcePeriod] of Object.entries(chartOverviewPeriodIds)) {
+        const p = document.getElementById(coin + '-' + sourcePeriod);
+        const a = document.getElementById(coin + '-' + sourcePeriod + '-amount');
+        const percent = p ? p.textContent.trim() : '…';
+        const amount = a ? a.textContent.trim() : '…';
+        const cls = p && p.classList.contains('positive') ? 'positive' :
+            p && p.classList.contains('negative') ? 'negative' : 'neutral';
+        setChartButtonValues(period, percent, amount, cls);
+    }
+}
+
+function setLongChartChange(coin, period, history, currentPrice) {
+    const hours = period === '3y' ? 3 * 365 * 24 : 5 * 365 * 24;
+    const target = Date.now() - hours * 60 * 60 * 1000;
+    // Keine irrefuehrende 5-Jahres-Rendite aus z.B. nur drei Jahren Daten.
+    if (!history.length || history[0].time > target + 15 * 24 * 60 * 60 * 1000) {
+        setChartButtonValues(period, '—', '—');
+        return;
+    }
+    const historicalClose = getHistoricalClose(history, hours);
+    if (!(historicalClose > 0) || !Number.isFinite(currentPrice)) {
+        setChartButtonValues(period, '—', '—');
+        return;
+    }
+    const amount = currentPrice - historicalClose;
+    const percent = (amount / historicalClose) * 100;
+    setChartButtonValues(period, formatPercent(percent), formatAbsoluteChange(coin, amount), changeClass(percent));
+}
+
+async function updateChartLongChanges() {
+    const coin = selectedCoin;
+    const requestId = ++chartChangeRequestId;
+    setChartButtonValues('3y', '…', '…');
+    setChartButtonValues('5y', '…', '…');
+    try {
+        let promise = chartLongChangeCache.get(coin);
+        if (!promise) {
+            promise = Promise.all([getHistory(COINS[coin].symbol, '5y'), getPrice(COINS[coin].symbol)]);
+            chartLongChangeCache.set(coin, promise);
+            promise.catch(() => chartLongChangeCache.delete(coin));
+        }
+        const [history, price] = await promise;
+        if (requestId !== chartChangeRequestId || selectedCoin !== coin) return;
+        setLongChartChange(coin, '3y', history, price);
+        setLongChartChange(coin, '5y', history, price);
+    } catch (err) {
+        if (requestId === chartChangeRequestId && selectedCoin === coin) {
+            setChartButtonValues('3y', '—', '—');
+            setChartButtonValues('5y', '—', '—');
+        }
+        console.warn('Langfristige Chart-Veraenderungen nicht verfuegbar', err);
+    }
+}
+
 /* =========================================================
    CHART ÖFFNEN
 ========================================================= */
@@ -3502,6 +3635,8 @@ function openChart(
     updateResolutionButtons();
 
     updatePeriodButtons();
+    updateChartOverviewChanges();
+    updateChartLongChanges();
 
     document
         .getElementById(
