@@ -1624,12 +1624,12 @@ html, body {
 
 .coin-card .price { cursor: pointer; touch-action: manipulation; }
 
-/* V2.5: Erkennbare, getrennte Währungstasten in Übersicht und Chart. */
+/* V2.6: Dezente, getrennte Währungstasten in Übersicht und Chart. */
 .currency-button, .currency-switch {
   appearance: none; -webkit-appearance: none;
-  border: 1px solid rgba(130,173,255,.65) !important;
+  border: 1px solid rgba(155,180,215,.26) !important;
   border-radius: 10px !important;
-  background: rgba(61,111,209,.24) !important;
+  background: rgba(61,111,209,.11) !important;
   color: #fff !important;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
   cursor: pointer; font-family: inherit; font-weight: 700;
@@ -1638,10 +1638,10 @@ html, body {
 .currency-button { padding: 7px 10px !important; margin: 0 !important; min-height: 38px; }
 .currency-button:active, .currency-switch:active { background: #3d6fd1 !important; transform: scale(.97); }
 .currency-button:focus-visible, .currency-switch:focus-visible { outline: 2px solid #a5c5ff; outline-offset: 2px; }
-.currency-switch { flex: 0 0 auto; padding: 8px 10px; min-width: 65px; min-height: 40px; font-size: 14px; white-space: nowrap; }
+.currency-switch { flex: 0 0 auto; padding: 8px 10px; min-width: 104px; min-height: 44px; font-size: 15px; white-space: nowrap; }
 @media (max-width: 600px) {
   .currency-button { min-height: 36px; padding: 5px 8px !important; font-size: clamp(13px,3.8vw,18px) !important; }
-  .currency-switch { min-width: 56px; min-height: 36px; padding: 5px 7px; font-size: 12px; }
+  .currency-switch { min-width: 94px; min-height: 42px; padding: 7px 12px; font-size: 13px; }
   .chart-header { gap: 6px !important; }
   .chart-title { flex: 1 1 auto; }
   .chart-title-name, .chart-title-price { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -2519,7 +2519,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V2.5</span>
+        <span class="version">V2.6</span>
     </div>
 
 </div>
@@ -2815,7 +2815,7 @@ async function api(
    AKTUELLER PREIS
 ========================================================= */
 
-async function getPrice(symbol) {
+async function getPriceDirect(symbol) {
 
     const data =
         await api(
@@ -2834,7 +2834,7 @@ async function getPrice(symbol) {
    24-STUNDEN-DATEN
 ========================================================= */
 
-async function get24h(symbol) {
+async function get24hDirect(symbol) {
 
     const data =
         await api(
@@ -3174,6 +3174,44 @@ async function getHistory(
         })
     );
 
+}
+
+/* Cardano: Binance bietet ADA/USD nicht zuverlässig als direktes Paar.
+   EURUSDT dient als USD-Näherung; bei fehlenden FX-Daten Fehler anzeigen. */
+async function getPrice(symbol) {
+    if (symbol !== "ADAUSD") return getPriceDirect(symbol);
+    const [adaEur, eurUsd] = await Promise.all([
+        getPriceDirect("ADAEUR"), getPriceDirect("EURUSDT")
+    ]);
+    return adaEur * eurUsd;
+}
+async function get24h(symbol) {
+    if (symbol !== "ADAUSD") return get24hDirect(symbol);
+    const [ada, fx] = await Promise.all([
+        get24hDirect("ADAEUR"), get24hDirect("EURUSDT")
+    ]);
+    return ((1 + ada / 100) * (1 + fx / 100) - 1) * 100;
+}
+async function getHistory(symbol, period) {
+    if (symbol !== "ADAUSD") return getHistoryDirect(symbol, period);
+    const [ada, fx] = await Promise.all([
+        getHistoryDirect("ADAEUR", period),
+        getHistoryDirect("EURUSDT", period)
+    ]);
+    const fxByTime = new Map(fx.map(c => [c.time, c]));
+    const result = ada.map(c => {
+        const rate = fxByTime.get(c.time);
+        if (!rate) return null;
+        return {
+            time: c.time,
+            open: c.open * rate.open,
+            high: c.high * rate.high,
+            low: c.low * rate.low,
+            close: c.close * rate.close
+        };
+    }).filter(Boolean);
+    if (!result.length) throw new Error("Keine gemeinsamen ADA/EUR- und EUR/USDT-Kursdaten");
+    return result;
 }
 
 /* =========================================================
