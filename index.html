@@ -297,7 +297,6 @@ body {
 
     border: 1px solid rgba(255,255,255,.14);
     border-radius: 20px;
-
     box-shadow: 0 30px 100px rgba(0,0,0,.65);
 }
 
@@ -597,8 +596,7 @@ body {
 @media (max-width: 900px) {
 
     .coin-card {
-        grid-template-columns: 200px 1fr;
-    }
+        grid-template-columns: 200px 1fr;    }
 
     .coin-info {
         padding: 17px;
@@ -897,8 +895,7 @@ body {
         font-size: 10px;
     }
 
-    .status {
-        white-space: nowrap;
+    .status {        white-space: nowrap;
         font-size: 9px;
     }
 
@@ -1197,8 +1194,7 @@ body {
 
     .coin-symbol {
         margin-top: 1px;
-        font-size: 8px;
-        line-height: 1.1;
+        font-size: 8px;        line-height: 1.1;
     }
 
     .price-area {
@@ -1497,8 +1493,7 @@ body {
         width: 100% !important;
         min-width: 0 !important;
         display: grid !important;
-        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-        gap: 5px !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;        gap: 5px !important;
         margin: 8px 0 0 !important;
         padding: 0 !important;
         overflow: visible !important;
@@ -1535,7 +1530,7 @@ body {
     }
 }
 
-/* V2.3: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
+/* V2.4: Ein durchgehender Hintergrund bis in den iPhone-Sicherheitsbereich. */
 html, body {
     background-color: #101a2b !important;
     background-image: none !important;
@@ -1544,7 +1539,7 @@ html, body {
     color-scheme: dark;
 }
 
-/* V2.3: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
+/* V2.4: Übersichtsbeschriftung „1 Tag“ und feste High-Res-Darstellung. */
 .change-amount {
     display: block;
     margin-top: 3px;
@@ -1581,7 +1576,7 @@ html, body {
 
 
 
-/* V2.3: Im Querformat die kompakte iPhone-Übersicht beibehalten.
+/* V2.4: Im Querformat die kompakte iPhone-Übersicht beibehalten.
    Safari/iOS-Web-Apps lassen sich per Webseite nicht zuverlässig auf Hochformat sperren. */
 @media (orientation: landscape) and (max-height: 600px) and (pointer: coarse) {
     html, body {
@@ -1627,9 +1622,10 @@ html, body {
     .footer { margin-top: 3px; padding: 0 12px 0 16px; font-size: 8px; }
 }
 
+.coin-card .price { cursor: pointer; touch-action: manipulation; }
 </style>
 
-<!-- V2.3: separate Regeln für installierte iPhone-Web-App und iPad-Querformat -->
+<!-- V2.4: separate Regeln für installierte iPhone-Web-App und iPad-Querformat -->
 <style>
 /* iPhone: nur Home-Bildschirm-Web-App; Safari bleibt bei den bisherigen Regeln. */
 @media (max-width: 600px) and (display-mode: standalone) {
@@ -1696,7 +1692,7 @@ html, body {
 }
 </style>
 
-<!-- V2.3: iPhone-Home-Screen-Ansicht und einspaltige iPad-Querformat-Übersicht -->
+<!-- V2.4: iPhone-Home-Screen-Ansicht und einspaltige iPad-Querformat-Übersicht -->
 <style>
 @media (max-width: 600px) and (display-mode: standalone) and (orientation: portrait) {
   html { height: 100%; }
@@ -1751,7 +1747,7 @@ html, body {
 }
 </style>
 
-<!-- V2.3: iPhone installed web app compact cards; must be inside HEAD -->
+<!-- V2.4: iPhone installed web app compact cards; must be inside HEAD -->
 <style>
 @media (max-width: 600px) and (orientation: portrait) and (display-mode: standalone) {
   html, body { height: auto !important; min-height: 0 !important; }
@@ -1786,7 +1782,7 @@ html, body {
 </style>
 
 
-<!-- V2.3: Home-Screen-Erkennung unabhängig von CSS display-mode. -->
+<!-- V2.4: Home-Screen-Erkennung unabhängig von CSS display-mode. -->
 <script>
 (function () {
   var standalone = window.navigator.standalone === true ||
@@ -1796,8 +1792,7 @@ html, body {
 </script>
 <style>
 /* Nur iPhone-Home-Screen; Safari und iPad bleiben unberührt. */
-@media (max-width: 600px) and (orientation: portrait) {
-  html.ios-home-app, html.ios-home-app body {
+@media (max-width: 600px) and (orientation: portrait) {  html.ios-home-app, html.ios-home-app body {
     height: auto !important;
     min-height: 0 !important;
   }
@@ -1875,7 +1870,7 @@ html, body {
 </style>
 
 
-<!-- V2.3: iOS-Homebildschirm: klare Rasterstruktur und volle nutzbare Höhe -->
+<!-- V2.4: iOS-Homebildschirm: klare Rasterstruktur und volle nutzbare Höhe -->
 <style>
 /* Kein radialer Verlauf im Standalone-Modus, auch nicht im Chart. */
 @media (display-mode: standalone) {
@@ -1986,7 +1981,7 @@ html.ios-home-app #chartOverlay {
 </style>
 
 
-<!-- V2.3: Einheitlicher Seitenhintergrund ohne radialen Verlauf. -->
+<!-- V2.4: Einheitlicher Seitenhintergrund ohne radialen Verlauf. -->
 <style>
 html, body, body::before, html::before {
   background-color: #101a2b !important;
@@ -1998,7 +1993,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
   background-image: none !important;
 }
 </style>
-<!-- V2.3: iOS-Scroll-Randeffekt nur auf der installierten iPhone-Uebersicht vermeiden.
+<!-- V2.4: iOS-Scroll-Randeffekt nur auf der installierten iPhone-Uebersicht vermeiden.
      Die Diagrammansicht und Safari bleiben unveraendert. -->
 <style>
 @media (max-width: 600px) and (orientation: portrait) {
@@ -2026,7 +2021,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 }
 </style>
 
-<!-- V2.3: iPad-PWA – denselben iOS-Rand-/Scroll-Effekt wie beim iPhone vermeiden.
+<!-- V2.4: iPad-PWA – denselben iOS-Rand-/Scroll-Effekt wie beim iPhone vermeiden.
      Nur installierte Web-Apps auf Touch-Tablets. Keine Änderungen an Karten, Charts oder Safari. -->
 <style>
 @media (min-width: 700px) and (pointer: coarse) {
@@ -2061,7 +2056,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 }
 </style>
 
-<!-- V2.3: Chart-Zeitraeume mit Prozent und absoluten Betraegen -->
+<!-- V2.4: Chart-Zeitraeume mit Prozent und absoluten Betraegen -->
 <style>
 #chartOverlay .period-button {
   display: flex !important;
@@ -2097,7 +2092,6 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
   #chartOverlay .chart-period-amount { font-size: 11px; }
 }
 </style>
-
 </head>
 
 <body>
@@ -2396,7 +2390,6 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
             </div>
 
             <div class="changes">
-
                 <div class="change" data-period="1h">
                     <div class="change-label">1 Stunde</div>
                     <div id="SOL-1h" class="change-value neutral">…</div>
@@ -2511,7 +2504,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V2.3</span>
+        <span class="version">V2.4</span>
     </div>
 
 </div>
@@ -2656,7 +2649,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
                 –
             </span>
 
-            <span>
+            <span data-currency-label="true">
                 EUR
             </span>
 
@@ -2696,7 +2689,6 @@ const COINS = {
         css: "eth",
         type: "eur"
     },
-
     ADA: {
         symbol: "ADAEUR",
         name: "Cardano",
@@ -2726,6 +2718,24 @@ const COINS = {
 /* =========================================================
    ZUSTAND
 ========================================================= */
+
+let quoteCurrency = localStorage.getItem("cryptoDashboardCurrency") === "USD" ? "USD" : "EUR";
+
+function toggleCurrency() {
+    quoteCurrency = quoteCurrency === "EUR" ? "USD" : "EUR";
+    localStorage.setItem("cryptoDashboardCurrency", quoteCurrency);
+    for (const coin of ["BTC", "ETH", "ADA", "SOL"]) {
+        COINS[coin].symbol = coin + quoteCurrency;
+        const label = document.querySelector(`[data-coin="${coin}"] .coin-symbol`);
+        if (label) label.textContent = coin + " / " + quoteCurrency;
+    }
+    document.querySelectorAll(".chart-bottom span").forEach(el => {
+        if (el.dataset.currencyLabel === "true") el.textContent = COINS[selectedCoin].type === "btc" ? "BTC" : quoteCurrency;
+    });
+    loadAll();
+    const overlay = document.getElementById("chartOverlay");
+    if (overlay && overlay.classList.contains("visible")) loadChart();
+}
 
 let selectedCoin = "BTC";
 
@@ -2978,7 +2988,6 @@ async function getHistory(
 
             })
         );
-
     }
 
     /*
@@ -3145,7 +3154,7 @@ function formatPrice(value) {
         "de-DE",
         {
             style: "currency",
-            currency: "EUR",
+            currency: quoteCurrency,
 
             minimumFractionDigits:
                 value >= 1
@@ -3278,7 +3287,6 @@ function calculateChange(
                 candle;
 
         }
-
     }
 
     if (
@@ -3330,7 +3338,7 @@ function formatAbsoluteChange(coin, amount) {
     if (COINS[coin] && COINS[coin].type === "btc") {
         return sign + abs.toLocaleString("de-DE", { minimumFractionDigits: 4, maximumFractionDigits: 6 }) + " BTC";
     }
-    return sign + abs.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+    return sign + abs.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + (quoteCurrency === "EUR" ? " €" : " $");
 }
 
 function setAbsoluteChange(coin, period, current, history, hours) {
@@ -3523,7 +3531,7 @@ function setStatus(
 
 
 /* =========================================================
-   V2.3: Performance direkt in den Chart-Zeitraum-Tasten
+   V2.4: Performance direkt in den Chart-Zeitraum-Tasten
 ========================================================= */
 const chartOverviewPeriodIds = {
     "1h": "1h", "1d": "24h", "1w": "7d", "1m": "30d", "1y": "365d"
@@ -3578,8 +3586,7 @@ async function updateChartLongChanges() {
     const requestId = ++chartChangeRequestId;
     setChartButtonValues('3y', '…', '…');
     setChartButtonValues('5y', '…', '…');
-    try {
-        let promise = chartLongChangeCache.get(coin);
+    try {        let promise = chartLongChangeCache.get(coin);
         if (!promise) {
             promise = Promise.all([getHistory(COINS[coin].symbol, '5y'), getPrice(COINS[coin].symbol)]);
             chartLongChangeCache.set(coin, promise);
@@ -3879,7 +3886,6 @@ function formatChartPrice(value) {
     if (value >= 1) {
 
         return value.toFixed(2);
-
     }
 
     return value.toFixed(4);
@@ -4178,8 +4184,7 @@ function drawChart(data) {
 
     }
 
-    ctx.lineTo(
-        points[
+    ctx.lineTo(        points[
             points.length - 1
         ].x,
         height - bottom
@@ -4478,7 +4483,6 @@ function showTooltipAt(
         point.x,
         geometry.top
     );
-
     ctx.lineTo(
         point.x,
         geometry.height -
@@ -4778,8 +4782,7 @@ chartCanvas.addEventListener(
     () => {
 
         setTimeout(
-            hideTooltip,
-            1800
+            hideTooltip,            1800
         );
 
     }
@@ -4841,6 +4844,10 @@ document
             "click",
             event => {
 
+                if (event.target.closest(".price")) {
+                    toggleCurrency();
+                    return;
+                }
                 if (
                     event.target.closest(".change")
                 ) {
@@ -5015,6 +5022,13 @@ window.addEventListener(
    START
 ========================================================= */
 
+for (const coin of ["BTC", "ETH", "ADA", "SOL"]) {
+    COINS[coin].symbol = coin + quoteCurrency;
+    const label = document.querySelector(`[data-coin="${coin}"] .coin-symbol`);
+    if (label) label.textContent = coin + " / " + quoteCurrency;
+}
+const currencyLabel = document.querySelector('[data-currency-label="true"]');
+if (currencyLabel) currencyLabel.textContent = quoteCurrency;
 loadAll();
 
 /*
