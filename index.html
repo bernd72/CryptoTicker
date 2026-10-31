@@ -1624,7 +1624,7 @@ html, body {
 
 .coin-card .price { cursor: pointer; touch-action: manipulation; }
 
-/* V2.6: Dezente, getrennte Währungstasten in Übersicht und Chart. */
+/* V2.7: Dezente, getrennte Währungstasten in Übersicht und Chart. */
 .currency-button, .currency-switch {
   appearance: none; -webkit-appearance: none;
   border: 1px solid rgba(155,180,215,.26) !important;
@@ -2519,7 +2519,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V2.6</span>
+        <span class="version">V2.7</span>
     </div>
 
 </div>
@@ -2963,7 +2963,7 @@ function getHistoryConfig(period) {
    mehrere Anfragen gemacht.
 ========================================================= */
 
-async function getHistory(
+async function getHistoryDirect(
     symbol,
     period
 ) {
