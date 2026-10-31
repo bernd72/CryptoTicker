@@ -1623,6 +1623,29 @@ html, body {
 }
 
 .coin-card .price { cursor: pointer; touch-action: manipulation; }
+
+/* V2.5: Erkennbare, getrennte Währungstasten in Übersicht und Chart. */
+.currency-button, .currency-switch {
+  appearance: none; -webkit-appearance: none;
+  border: 1px solid rgba(130,173,255,.65) !important;
+  border-radius: 10px !important;
+  background: rgba(61,111,209,.24) !important;
+  color: #fff !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+  cursor: pointer; font-family: inherit; font-weight: 700;
+  touch-action: manipulation;
+}
+.currency-button { padding: 7px 10px !important; margin: 0 !important; min-height: 38px; }
+.currency-button:active, .currency-switch:active { background: #3d6fd1 !important; transform: scale(.97); }
+.currency-button:focus-visible, .currency-switch:focus-visible { outline: 2px solid #a5c5ff; outline-offset: 2px; }
+.currency-switch { flex: 0 0 auto; padding: 8px 10px; min-width: 65px; min-height: 40px; font-size: 14px; white-space: nowrap; }
+@media (max-width: 600px) {
+  .currency-button { min-height: 36px; padding: 5px 8px !important; font-size: clamp(13px,3.8vw,18px) !important; }
+  .currency-switch { min-width: 56px; min-height: 36px; padding: 5px 7px; font-size: 12px; }
+  .chart-header { gap: 6px !important; }
+  .chart-title { flex: 1 1 auto; }
+  .chart-title-name, .chart-title-price { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
 </style>
 
 <!-- V2.4: separate Regeln für installierte iPhone-Web-App und iPad-Querformat -->
@@ -2151,11 +2174,9 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
         <div class="price-area">
 
-            <div
-                class="price"
-                id="BTC-price">
+            <button type="button" class="price currency-button" id="BTC-price" aria-label="Währung zwischen Euro und US-Dollar wechseln" title="Währung wechseln">
                 Laden …
-            </div>
+            </button>
 
             <div class="price-label">
                 aktueller Preis
@@ -2227,11 +2248,9 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
         <div class="price-area">
 
-            <div
-                class="price"
-                id="ETH-price">
+            <button type="button" class="price currency-button" id="ETH-price" aria-label="Währung zwischen Euro und US-Dollar wechseln" title="Währung wechseln">
                 Laden …
-            </div>
+            </button>
 
             <div class="price-label">
                 aktueller Preis
@@ -2303,11 +2322,9 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
         <div class="price-area">
 
-            <div
-                class="price"
-                id="ADA-price">
+            <button type="button" class="price currency-button" id="ADA-price" aria-label="Währung zwischen Euro und US-Dollar wechseln" title="Währung wechseln">
                 Laden …
-            </div>
+            </button>
 
             <div class="price-label">
                 aktueller Preis
@@ -2379,11 +2396,9 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
         <div class="price-area">
 
-            <div
-                class="price"
-                id="SOL-price">
+            <button type="button" class="price currency-button" id="SOL-price" aria-label="Währung zwischen Euro und US-Dollar wechseln" title="Währung wechseln">
                 Laden …
-            </div>
+            </button>
 
             <div class="price-label">
                 aktueller Preis
@@ -2504,7 +2519,7 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
 
     <div class="footer">
         <span>Live-Marktdaten · Aktualisierung alle 30 Sekunden</span>
-        <span class="version">V2.4</span>
+        <span class="version">V2.5</span>
     </div>
 
 </div>
@@ -2543,6 +2558,8 @@ html.ios-home-app body::before, html.ios-home-app #chartOverlay {
                 </div>
 
             </div>
+
+            <button type="button" id="chartCurrencyButton" class="currency-switch" aria-label="Währung wechseln">€ / $</button>
 
             <button
                 id="closeChart"
@@ -2721,6 +2738,20 @@ const COINS = {
 
 let quoteCurrency = localStorage.getItem("cryptoDashboardCurrency") === "USD" ? "USD" : "EUR";
 
+function updateCurrencyButtons() {
+    document.querySelectorAll(".currency-button").forEach(button => {
+        button.setAttribute("aria-label", "Aktuell " + quoteCurrency + ". Tippen, um die Währung zu wechseln");
+        button.title = "Währung wechseln (" + quoteCurrency + ")";
+    });
+    const chartButton = document.getElementById("chartCurrencyButton");
+    if (chartButton) {
+        chartButton.textContent = quoteCurrency === "EUR" ? "€ → $" : "$ → €";
+        chartButton.setAttribute("aria-label", "Aktuell " + quoteCurrency + ". Währung wechseln");
+        chartButton.disabled = selectedCoin === "ETHBTC";
+        chartButton.style.visibility = selectedCoin === "ETHBTC" ? "hidden" : "visible";
+    }
+}
+
 function toggleCurrency() {
     quoteCurrency = quoteCurrency === "EUR" ? "USD" : "EUR";
     localStorage.setItem("cryptoDashboardCurrency", quoteCurrency);
@@ -2732,6 +2763,7 @@ function toggleCurrency() {
     document.querySelectorAll(".chart-bottom span").forEach(el => {
         if (el.dataset.currencyLabel === "true") el.textContent = COINS[selectedCoin].type === "btc" ? "BTC" : quoteCurrency;
     });
+    updateCurrencyButtons();
     loadAll();
     const overlay = document.getElementById("chartOverlay");
     if (overlay && overlay.classList.contains("visible")) loadChart();
@@ -4844,7 +4876,7 @@ document
             "click",
             event => {
 
-                if (event.target.closest(".price")) {
+                if (event.target.closest(".currency-button")) {
                     toggleCurrency();
                     return;
                 }
@@ -4865,6 +4897,11 @@ document
         );
 
     });
+
+document.getElementById("chartCurrencyButton").addEventListener("click", event => {
+    event.stopPropagation();
+    toggleCurrency();
+});
 
 /* =========================================================
    ZEITRAUM IN ÜBERSICHT
@@ -5027,6 +5064,7 @@ for (const coin of ["BTC", "ETH", "ADA", "SOL"]) {
     const label = document.querySelector(`[data-coin="${coin}"] .coin-symbol`);
     if (label) label.textContent = coin + " / " + quoteCurrency;
 }
+updateCurrencyButtons();
 const currencyLabel = document.querySelector('[data-currency-label="true"]');
 if (currencyLabel) currencyLabel.textContent = quoteCurrency;
 loadAll();
