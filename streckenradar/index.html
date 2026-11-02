@@ -84,7 +84,7 @@
   <div class="notice-head" style="margin-top:27px"><h2>Wichtige Hinweise</h2><span class="count" id="noticeCount">–</span></div>
   <div id="notices" class="notices"><div class="empty"><b>Keine Prüfung durchgeführt</b><span>Die Meldungen erscheinen hier nach der ersten Prüfung.</span></div></div>
   <a class="secondary" id="mapsLink" href="#" target="_blank" rel="noopener noreferrer" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 10.5 9 7l6 3 6-3v12l-6 3-6-3-6 3zM9 7v12M15 10v12"/></svg> Strecke mit Live-Verkehr öffnen ↗</a>
-  <footer class="footer"><strong>Amtliche Meldungen, kein vollständiges Stau-Radar.</strong><br>Ohne Meldung ist eine freie Fahrt nicht garantiert.<br>Daten: MobiData BW · Verkehrsservice Hessen · Autobahn GmbH · OpenStreetMap<br>StreckenRadar V0.1</footer>
+  <footer class="footer"><strong>Amtliche Meldungen, kein vollständiges Stau-Radar.</strong><br>Ohne Meldung ist eine freie Fahrt nicht garantiert.<br>Daten: MobiData BW · Verkehrsservice Hessen · Autobahn GmbH · OpenStreetMap<br>StreckenRadar V0.2</footer>
 </div>
 <div class="shade" id="settingsShade" aria-hidden="true">
   <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
@@ -100,12 +100,12 @@
 </div>
 <script>
 'use strict';
-const VERSION='0.1';
+const VERSION='0.2';
 const STORE='streckenradar.prefs.v1';
 const $=id=>document.getElementById(id);
 const DEFAULT_WORK={label:'Heidelberg · Im Neuenheimer Feld',lat:49.4205,lon:8.6760};
 const DEFAULT={home:null,work:DEFAULT_WORK,manualStart:null,startMode:'gps',mode:'work'};
-let settings=loadSettings(), checking=false, checkToken=0, lastOrigin=null, lastDestination=null, lastFound=[];
+let settings=loadSettings(), checking=false, checkToken=0, lastCheckStarted=0, lastOrigin=null, lastDestination=null, lastFound=[];
 function loadSettings(){try{const j=JSON.parse(localStorage.getItem(STORE)||'{}');return {...DEFAULT,...j,work:j.work||DEFAULT_WORK};}catch{return {...DEFAULT};}}
 function persist(){try{localStorage.setItem(STORE,JSON.stringify(settings));}catch{}}
 function validLocation(o){return o&&Number.isFinite(Number(o.lat))&&Number.isFinite(Number(o.lon))&&Math.abs(o.lat)<=90&&Math.abs(o.lon)<=180;}
@@ -138,7 +138,7 @@ function kmLabel(d){return d<1?Math.round(d*1000)+' m':(Math.round(d*10)/10).toL
 function renderNotices(items,partial=false){$('notices').replaceChildren();$('noticeCount').textContent=items.length?`${Math.min(items.length,5)} Hinweise`:'0 Hinweise';if(!items.length){const box=document.createElement('div');box.className='empty';const a=document.createElement('b'),b=document.createElement('span');a.textContent=partial?'Kein Hinweis aus verfügbaren Quellen':'Keine wichtigen Meldungen gefunden';b.textContent=partial?'Mindestens eine Datenquelle konnte nicht geladen werden.':'Dies ist keine Garantie für freie Straßen oder fehlende Staus.';box.append(a,b);$('notices').append(box);return;}for(const item of items.slice(0,5)){const card=document.createElement('article');card.className='notice '+(item.level>=3?'emergency':item.level===2?'high':'');const top=document.createElement('div');top.className='notice-top';const badge=document.createElement('span');badge.className='chip '+(item.level>=3?'red':item.level===1?'grey':'');badge.textContent=item.level>=3?'Wichtig':item.level===2?'Beachten':'Hinweis';const dist=document.createElement('span');dist.className='km';dist.textContent=item.d<1?'in '+kmLabel(item.d)+' Nähe':'ca. '+kmLabel(item.d)+' entfernt';top.append(badge,dist);const title=document.createElement('div');title.className='notice-title';title.textContent=item.name;const desc=document.createElement('p');desc.className='notice-desc';desc.textContent=item.description;const footer=document.createElement('div');footer.className='notice-source';footer.textContent=item.source;card.append(top,title,desc,footer);$('notices').append(card);}}
 function listMatches(input,route,origin,mode,approx){const accepted=[];const seen=new Set(),cutoff=mode==='near'?12:(approx?4:1.8);for(const item of input){if(!item.points?.length)continue;const d=mode==='near'?Math.min(...item.points.map(p=>haversine(p,origin))):nearRoute(item.points,route);if(d>cutoff)continue;const level=classify(item.name+' '+item.description,item.type);if(level===1&&d>(mode==='near'?2.5:.55))continue;const norm=(item.name+'|'+item.description).toLowerCase().replace(/\s+/g,' ').slice(0,110);if(seen.has(norm))continue;seen.add(norm);accepted.push({...item,d,level});}accepted.sort((a,b)=>b.level-a.level||a.d-b.d);return accepted;}
 function googleLink(origin,destination){const v=a=>a.lat.toFixed(6)+','+a.lon.toFixed(6);return 'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(v(origin))+'&destination='+encodeURIComponent(v(destination))+'&travelmode=driving';}
-async function runCheck(){if(checking){checkToken++;}const token=++checkToken;setLoading(true);$('mapsLink').hidden=true;$('statusTime').textContent='Prüfung läuft';setStatus('Wird geprüft','Verkehr wird geprüft …','GPS, Strecke und amtliche Meldungen werden abgefragt.');$('noticeCount').textContent='…';renderNotices([]);$('noticeCount').textContent='…';renderMode();try{
+async function runCheck(){if(checking){checkToken++;}const token=++checkToken;lastCheckStarted=Date.now();setLoading(true);$('mapsLink').hidden=true;$('statusTime').textContent='Prüfung läuft';setStatus('Wird geprüft','Verkehr wird geprüft …','GPS, Strecke und amtliche Meldungen werden abgefragt.');$('noticeCount').textContent='…';renderNotices([]);$('noticeCount').textContent='…';renderMode();try{
 let origin=settings.startMode==='gps'?await gpsLocation():settings.manualStart;
 if(!validLocation(origin)){openSettings('Bitte eine Startadresse eingeben oder GPS aktivieren.');throw Error('Startpunkt fehlt.');}
 if(token!==checkToken)return;
@@ -171,7 +171,7 @@ $('checkButton').addEventListener('click',()=>void runCheck());$('saveHome').add
 $('saveHomeGps').addEventListener('click',async()=>{const btn=$('saveHomeGps');btn.disabled=true;setFeedback('GPS-Position wird ermittelt …');try{const p=await gpsLocation();settings.home={...p,label:'Gespeicherter GPS-Standort'};persist();updateFields();setFeedback('Zuhause wurde nur auf diesem Gerät gespeichert.');if(settings.mode==='home')void runCheck();}catch(e){setFeedback(e.message);}finally{btn.disabled=false;}});
 for(const [id,mode] of [['startGps','gps'],['startManual','manual']])$(id).addEventListener('click',()=>{settings.startMode=mode;persist();updateFields();if(mode==='gps')setFeedback('GPS wird beim nächsten Prüfen verwendet.');else setFeedback('Bitte Startadresse eingeben und speichern.');});
 $('clearSaved').addEventListener('click',()=>{if(!confirm('Alle lokal gespeicherten Ziele und Einstellungen löschen?'))return;localStorage.removeItem(STORE);settings={...DEFAULT};updateFields();renderMode();setFeedback('Lokale Daten gelöscht.');});
-renderMode();updateFields();window.addEventListener('pageshow',e=>{if(e.persisted&&!checking)void runCheck();});setTimeout(()=>void runCheck(),250);
+renderMode();updateFields();window.addEventListener('pageshow',e=>{if(e.persisted&&!checking)void runCheck();});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&!checking&&Date.now()-lastCheckStarted>30000)void runCheck();});window.addEventListener('focus',()=>{if(!checking&&Date.now()-lastCheckStarted>30000)void runCheck();});setTimeout(()=>void runCheck(),250);
 </script>
 </body>
 </html>
